@@ -1,7 +1,7 @@
 package com.lysenko.payments.servlets.admin;
 
-import com.lysenko.payments.model.user.User;
-import com.lysenko.payments.model.user.UserDao;
+import com.lysenko.payments.model.entity.user.User;
+import com.lysenko.payments.model.dao.UserDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

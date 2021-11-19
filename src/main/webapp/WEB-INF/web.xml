@@ -26,13 +26,13 @@
     <!-- the (preferable) browser's locale will be used if we don't set the default locale -->
     <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
-        <param-value>ru</param-value>
+        <param-value>en</param-value>
     </context-param>
 
     <!-- supported locales -->
     <context-param>
         <param-name>locales</param-name>
-        <param-value>ru en</param-value>
+        <param-value>ua en</param-value>
     </context-param>
 
 
@@ -41,7 +41,7 @@
     =============================================================-->
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.lysenko.payments.logs.EncodingFilter</filter-class>
+        <filter-class>com.lysenko.payments.utils.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>utf-8</param-value>
@@ -68,33 +68,33 @@
 	4) out-of-control: commands without access control
 	Delimiter - space/tab
     =========================================================-->
-<!--    <filter>-->
-<!--        <filter-name>SecurityFilter</filter-name>-->
-<!--        <filter-class>com.lysenko.payments.logs.SecurityFilter</filter-class>-->
-<!--        <init-param>-->
-<!--            <param-name>admin</param-name>-->
-<!--            <param-value>admin customer/block customer/unblock</param-value>-->
-<!--        </init-param>-->
-<!--        <init-param>-->
-<!--            <param-name>user</param-name>-->
-<!--            <param-value>account user payment block sent_request top_up</param-value>-->
-<!--        </init-param>-->
-<!--        <init-param>-->
-<!--            <param-name>not-filtered</param-name>-->
-<!--            <param-value>login /</param-value>-->
-<!--        </init-param>-->
-<!--    </filter>-->
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.lysenko.payments.utils.SecurityFilter</filter-class>
+        <init-param>
+            <param-name>admin</param-name>
+            <param-value>/admin /customer /customer/block /customer/unblock /customer-account/block /customer-account/unblock</param-value>
+        </init-param>
+        <init-param>
+            <param-name>user</param-name>
+            <param-value>/account /user /payment/new /block /sent-request /top_up /request/new /payment/create</param-value>
+        </init-param>
+        <init-param>
+            <param-name>not-filtered</param-name>
+            <param-value>/login /registration / /sign_out</param-value>
+        </init-param>
+    </filter>
 
-<!--    <filter-mapping>-->
-<!--        <filter-name>SecurityFilter</filter-name>-->
-<!--        <url-pattern>/*</url-pattern>-->
-<!--    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!--============================================================
 	Context listener
     =============================================================-->
     <listener>
-        <listener-class>com.lysenko.payments.logs.ContextListener</listener-class>
+        <listener-class>com.lysenko.payments.utils.ContextListener</listener-class>
     </listener>
 
 

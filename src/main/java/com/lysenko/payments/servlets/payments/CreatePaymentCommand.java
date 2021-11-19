@@ -1,7 +1,7 @@
 package com.lysenko.payments.servlets.payments;
 
 
-import com.lysenko.payments.model.account.AccountDao;
+import com.lysenko.payments.model.dao.AccountDao;
 
 
 import javax.servlet.http.HttpServletRequest;

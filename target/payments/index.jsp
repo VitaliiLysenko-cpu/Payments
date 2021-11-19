@@ -1,5 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<f:setLocale value="${param.lang}"/>
+<f:setBundle basename="locale"/>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,13 +16,13 @@
     <form class="form-horizontal needs-validation" id="loginform" role="form" method="post"
           action="${pageContext.request.contextPath}/login" novalidate>
         <div class="mb-3 form-group col-lg-2">
-            <label for="login-username" class="form-label">Email*</label>
+            <label for="login-username" class="form-label"><f:message key="email"/>*</label>
             <input id="login-username" type="email" class="form-control" name="email" required>
             <div class="invalid-feedback">${requestScope.error}</div>
         </div>
 
         <div class="mb-3 form-group col-lg-2">
-            <label for="login-password" class="form-label">Password*</label>
+            <label for="login-password" class="form-label"><f:message key="password"/>*</label>
             <input id="login-password" type="password" class="form-control" name="password" minlength="8" required>
             <div class="invalid-feedback">${requestScope.error}</div>
         </div>
@@ -30,8 +33,8 @@
 <%--            </div>--%>
 <%--        </div>--%>
 
-        <input type="submit" value="Login" class="btn btn-primary">
-        <a href="${pageContext.request.contextPath}/registration">     Not have account</a>
+        <input type="submit" value="<f:message key="login"/>" class="btn btn-primary">
+        <a href="${pageContext.request.contextPath}/registration"><f:message key="notHaveAccount"/></a>
     </form>
 </div>
 </body>

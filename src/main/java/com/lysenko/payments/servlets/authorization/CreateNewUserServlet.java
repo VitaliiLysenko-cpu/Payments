@@ -1,6 +1,6 @@
 package com.lysenko.payments.servlets.authorization;
 
-import com.lysenko.payments.model.user.UserDao;
+import com.lysenko.payments.model.dao.UserDao;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

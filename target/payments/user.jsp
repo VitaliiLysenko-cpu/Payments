@@ -1,7 +1,10 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.lysenko.payments.model.account.Status" %>
+<%@ page import="com.lysenko.payments.model.entity.account.Status" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<f:setLocale value="${param.lang}"/>
+<f:setBundle basename="locale"/>
 
 <html>
 <head>
@@ -17,11 +20,11 @@
 <table id="table-accounts" class="table">
     <thead>
     <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Number</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Status</th>
-        <th scope="col">Change Status</th>
+        <th scope="col"><f:message key="name"/></th>
+        <th scope="col"><f:message key="number"/></th>
+        <th scope="col"><f:message key="amount"/></th>
+        <th scope="col"><f:message key="status"/></th>
+        <th scope="col"><f:message key="changeStatus"/></th>
 
 
     </tr>
@@ -38,10 +41,10 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.OPEN }">
-                        <a href="/block?id=${account.getId()}">Block</a>
+                        <a href="/block?id=${account.getId()}"><f:message key="block"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/sent-request?id=${account.getId()}">Unblock</a>
+                        <a href="/sent-request?id=${account.getId()}"><f:message key="unblock"/></a>
                     </c:otherwise>
                 </c:choose>
             </td>

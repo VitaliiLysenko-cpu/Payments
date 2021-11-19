@@ -1,7 +1,7 @@
 package com.lysenko.payments.servlets.account;
 
-import com.lysenko.payments.model.account.AccountDao;
-import com.lysenko.payments.model.account.MarkChangeBalance;
+import com.lysenko.payments.model.dao.AccountDao;
+import com.lysenko.payments.model.entity.account.MarkChangeBalance;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

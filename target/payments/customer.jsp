@@ -1,13 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vitaliy
-  Date: 17.11.2021
-  Time: 12:37
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.lysenko.payments.model.account.Status" %>
+<%@ page import="com.lysenko.payments.model.entity.account.Status" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<f:setLocale value="${param.lang}"/>
+<f:setBundle basename="locale"/>
 
 <html>
 <head>
@@ -23,9 +20,9 @@
 <table id="table-accounts" class="table">
     <thead>
     <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Status</th>
-        <th scope="col">Change Status</th>
+        <th scope="col"><f:message key="name"/></th>
+        <th scope="col"><f:message key="status"/></th>
+        <th scope="col"><f:message key="changeStatus"/></th>
 
 
     </tr>
@@ -38,10 +35,14 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.BLOCKED }">
-                        <a href="customer-account/unblock?accountId=${account.getId()}&customerId=${customerId}">Unblock</a>
+                        <a href="customer-account/unblock?accountId=${account.getId()}&customerId=${customerId}">
+                            <f:message key="unblock"/>
+                        </a>
                     </c:when>
                     <c:otherwise>
-                        <a href="customer-account/block?accountId=${account.getId()}&customerId=${customerId}">Block</a>
+                        <a href="customer-account/block?accountId=${account.getId()}&customerId=${customerId}">
+                            <f:message key="block"/>
+                        </a>
                     </c:otherwise>
                 </c:choose>
             </td>

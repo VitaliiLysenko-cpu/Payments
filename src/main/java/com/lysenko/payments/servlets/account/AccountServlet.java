@@ -1,9 +1,9 @@
 package com.lysenko.payments.servlets.account;
-import com.lysenko.payments.model.account.AccountDao;
-import com.lysenko.payments.model.card.Card;
-import com.lysenko.payments.model.card.CardDao;
-import com.lysenko.payments.model.payment.Payment;
-import com.lysenko.payments.model.payment.PaymentDao;
+import com.lysenko.payments.model.dao.AccountDao;
+import com.lysenko.payments.model.entity.Card;
+import com.lysenko.payments.model.dao.CardDao;
+import com.lysenko.payments.model.entity.payment.Payment;
+import com.lysenko.payments.model.dao.PaymentDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
