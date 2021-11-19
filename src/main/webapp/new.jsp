@@ -1,6 +1,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<f:setLocale value="${sessionScope.lang}"/>
+<f:setBundle basename="locale"/>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -11,21 +14,23 @@
     <title>New payment</title>
 </head>
 <body>
+<jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
 <form class="form-horizontal needs-validation" id="create" role="form" method="post"
-      action="${pageContext.request.contextPath}/payment/create" novalidate>
+      action="${pageContext.request.contextPath}/payment/create" >
     <div class="mb-3 form-group col-lg-2">
-        <label for="total" class="form-label">Total*</label>
+        <label for="total" class="form-label"><f:message key="total"/>*</label>
         <input id="total" type="number" min="0" step="0.01" class="form-control" name="total" required>
         <div class="invalid-feedback">${requestScope.error}</div>
     </div>
 
-    <select name="accountId" id="accountId" class="form-select" aria-label="Default select example">
-        <option selected>Open this select menu</option>
+    <select name="accountId" id="accountId" class="form-select" aria-label="Default select example"required>
+        <option selected value="">Open this select menu</option>
         <c:forEach items="${accounts}" var="account">
-            <option value="${account.getId()}">${account.getId()}, ${account.getName()}, ${account.getNumber()}, ${account.getBalance()}</option>
+            <option value="${account.getId()}">${account.getId()}, ${account.getName()},
+                    ${account.getNumber()}, ${account.getBalance()}</option>
         </c:forEach>
     </select>
-    <input type="submit" value="pay" class="btn btn-primary">
+    <input type="submit" value="<f:message key="pay"/>" class="btn btn-primary">
 </form>
 
 

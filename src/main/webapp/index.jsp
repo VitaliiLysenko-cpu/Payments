@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <html>
 <head>
@@ -26,12 +26,6 @@
             <input id="login-password" type="password" class="form-control" name="password" minlength="8" required>
             <div class="invalid-feedback">${requestScope.error}</div>
         </div>
-
-<%--        <div class="alert alert-danger d-flex align-items-center col-lg-2" role="alert">--%>
-<%--            <div>--%>
-<%--                ${requestScope.error}--%>
-<%--            </div>--%>
-<%--        </div>--%>
 
         <input type="submit" value="<f:message key="login"/>" class="btn btn-primary">
         <a href="${pageContext.request.contextPath}/registration"><f:message key="notHaveAccount"/></a>

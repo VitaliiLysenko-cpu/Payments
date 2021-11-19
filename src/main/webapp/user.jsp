@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.lysenko.payments.model.entity.account.Status" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 
 <html>
@@ -33,7 +33,15 @@
     <c:forEach items="${accounts}" var="account">
         <tr>
             <td>
-                <a href="/account?id=${account.getId()}&page=1">${account.getName()}</a>
+                <c:choose>
+                    <c:when test="${account.getStatus() == Status.OPEN}">
+                        <a href="${pageContext.request.contextPath}/account?id=${account.getId()}&page=1">${account.getName()}</a>
+                    </c:when>
+                    <c:otherwise>
+                        ${account.getName()}
+                    </c:otherwise>
+                </c:choose>
+
             </td>
             <td>${account.getNumber()}</td>
             <td>$${account.getBalance()}</td>
@@ -41,10 +49,10 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.OPEN }">
-                        <a href="/block?id=${account.getId()}"><f:message key="block"/></a>
+                        <a href="${pageContext.request.contextPath}/block?id=${account.getId()}"><f:message key="block"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/sent-request?id=${account.getId()}"><f:message key="unblock"/></a>
+                        <a href="${pageContext.request.contextPath}/sent-request?id=${account.getId()}"><f:message key="unblock"/></a>
                     </c:otherwise>
                 </c:choose>
             </td>

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.lysenko.payments.model.entity.user.UserStatus" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <html>
 <head>
@@ -28,7 +28,7 @@
     <c:forEach items="${users}" var="user">
         <tr>
             <td>
-                <a href="/customer?id=${user.getUserId()}">${user.getName()} ${user.getSurname()}</a>
+                <a href="${pageContext.request.contextPath}/customer?id=${user.getUserId()}">${user.getName()} ${user.getSurname()}</a>
             </td>
 
 

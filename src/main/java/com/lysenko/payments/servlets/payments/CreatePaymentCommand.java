@@ -12,10 +12,16 @@ public class CreatePaymentCommand implements Command{
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int accountId = Integer.parseInt(req.getParameter("accountId"));
-        double total = Double.parseDouble(req.getParameter("total"));
-        AccountDao accountDao = new AccountDao();
-        accountDao.makePayment(total,accountId);
-        resp.sendRedirect("/account?id=" + accountId);
+        String accId = req.getParameter("accountId");
+        String tot = req.getParameter("total");
+        if (!accId.isEmpty() && !tot.isEmpty()) {
+            int accountId = Integer.parseInt(accId);
+            double total = Double.parseDouble(tot);
+            AccountDao accountDao = new AccountDao();
+            accountDao.makePayment(total, accountId);
+            resp.sendRedirect("/account?id=" + accountId);
+        }else {
+            resp.sendRedirect(req.getHeader("referer"));
+        }
     }
 }

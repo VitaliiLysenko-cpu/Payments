@@ -17,7 +17,7 @@ public class CustomerServlet extends HttpServlet {
         final String customerId = req.getParameter("id");
         AccountDao accountDao = new AccountDao();
         //TODO add pagination
-        List<Account> accounts = accountDao.getUserAccounts(Integer.parseInt(customerId));
+        List<Account> accounts = accountDao.getAllUserAccounts(Integer.parseInt(customerId));
         req.setAttribute("accounts", accounts);
         req.setAttribute("customerId", customerId);
         req.getRequestDispatcher("/customer.jsp").forward(req, resp);

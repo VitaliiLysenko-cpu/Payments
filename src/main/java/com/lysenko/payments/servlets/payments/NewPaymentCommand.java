@@ -15,7 +15,7 @@ public class NewPaymentCommand implements Command{
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         AccountDao accountDao = new AccountDao();
-        List<Account> accounts = accountDao.getUserAccounts(user.getUserId());
+        List<Account> accounts = accountDao.getUserOpenAccounts(user.getUserId());
         req.setAttribute("accounts", accounts);
         req.getRequestDispatcher("/new.jsp").forward(req,resp);
     }

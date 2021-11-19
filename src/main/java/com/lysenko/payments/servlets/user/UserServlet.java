@@ -22,7 +22,7 @@ public class UserServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         AccountDao accountDao = new AccountDao();
         //TODO add pagination
-        List<Account> accounts = accountDao.getUserAccounts(user.getUserId());
+        List<Account> accounts = accountDao.getAllUserAccounts(user.getUserId());
         req.setAttribute("accounts", accounts);
         req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }

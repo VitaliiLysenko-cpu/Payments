@@ -51,8 +51,7 @@ public class UserDao {
         return null;
     }
 
-    public void registration(String email, String firstname, String lastname, String phoneNum, String password,
-                             String cardNumber, String cvc, String pin, String expiration) {
+    public void registration(String email, String firstname, String lastname, String phoneNum, String password) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(CHECK_USER_EMAIL)) {
             ps.setString(1, email);
@@ -67,10 +66,13 @@ public class UserDao {
                     statement.setString(5, password);
                     //todo hash
                     statement.execute();
-                    rs = statement.getGeneratedKeys();
+                    final ResultSet generatedKeys = statement.getGeneratedKeys();
 
-                    CardDao cardDao = new CardDao();
-                    cardDao.addCard(rs.getInt(1), cardNumber, cvc, pin, expiration);
+                    //create account
+                    //add account to db
+                    //get newly created account id
+                    //create card
+                    //add card to db
                 }
             }
         } catch (SQLException throwables) {

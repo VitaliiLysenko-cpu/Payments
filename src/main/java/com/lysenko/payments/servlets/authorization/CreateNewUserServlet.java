@@ -17,12 +17,8 @@ public class CreateNewUserServlet extends HttpServlet {
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String phoneNum = request.getParameter("phone");
-        String cardNumber = request.getParameter("cardNumber");
-        String cvc = request.getParameter("cvc");
-        String pin = request.getParameter("pin");
-        String expiration = request.getParameter("expiration");
         String password = request.getParameter("password");
-        userDao.registration(email,firstname,lastname,phoneNum,password,cardNumber,cvc,pin,expiration);
+        userDao.registration(email,firstname,lastname,phoneNum,password);
         response.sendRedirect("/login");
     }
 }

@@ -24,7 +24,7 @@ public class ContextListener implements ServletContextListener {
         log("Servlet context initialization finished");
     }
 
-   @Override
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         log("Servlet context destruction starts");
         // do nothing

@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <html>
 <head>
@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
 <div class="container-sm"><f:message key="balance"/> ${balance}</div>
-<form method="post" action="${pageContext.request.contextPath}/top_up" novalidate>
+<form method="post" action="${pageContext.request.contextPath}/top_up">
     <div class="mb-3 form-group col-lg-2">
         <label for="total" class="form-label"><f:message key="total"/>*</label>
         <input id="total" type="number" min="0" step="0.01" class="form-control" name="total" required>

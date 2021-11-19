@@ -22,10 +22,19 @@ public class AccountDao {
     public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ?";
     public static final String BALANCE = "balance";
     private static final String REQUEST_FOR_CREATE_NEW_ACCOUNT = "INSERT INTO create_account_request(userId) VALUE (?)";
+    private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
 
-    public List<Account> getUserAccounts(int userId) {
+    public List<Account> getAllUserAccounts(int userId) {
+        return getUserAccounts(userId, GET_USER_ACCOUNTS);
+    }
+
+    public List<Account> getUserOpenAccounts(int userId) {
+        return getUserAccounts(userId, GET_USER_OPEN_ACCOUNTS);
+    }
+
+    private List<Account> getUserAccounts(int userId, String query) {
         try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_USER_ACCOUNTS)) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             return resultSetToAccounts(rs);
@@ -69,7 +78,7 @@ public class AccountDao {
     }
 
     public void changeBalance(double total, int accountId, MarkChangeBalance mark) {
-        try(Connection connection = Pool.getInstance().getConnection()) {
+        try (Connection connection = Pool.getInstance().getConnection()) {
             changeBalance(total, accountId, mark, connection);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -78,8 +87,8 @@ public class AccountDao {
 
     public void changeBalance(double total, int accountId, MarkChangeBalance mark, Connection connection) {
         try (
-             PreparedStatement getBalance = connection.prepareStatement(GET_BALANCE_FROM_ACCOUNT);
-             PreparedStatement changeBalanceStatement = connection.prepareStatement(CHANGE_BALANCE_FOR_ACCOUNT)
+                PreparedStatement getBalance = connection.prepareStatement(GET_BALANCE_FROM_ACCOUNT);
+                PreparedStatement changeBalanceStatement = connection.prepareStatement(CHANGE_BALANCE_FOR_ACCOUNT)
         ) {
             getBalance.setInt(1, accountId);
             ResultSet rs = getBalance.executeQuery();

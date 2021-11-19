@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <html>
 <head>
@@ -21,12 +21,9 @@
 
 
         <div class="form-group">
-            <%--@declare id="email"--%><label for="email" class="col-md-3 control-label">
-            <f:message key="email"/> *
-        </label>
-            <div class="col-md-9">
-                <input type="text" class="form-control" name="email" placeholder="Email Address" required>
-            </div>
+            <label for="email" class="col-md-3 control-label">
+            <f:message key="email"/> *</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" required>
         </div>
 
         <div class="form-group">
@@ -51,63 +48,22 @@
                 <f:message key="phoneNum"/>
             </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="phone" placeholder="phone number" required>
+                <input type="text" class="form-control" name="phone" placeholder="phone number"
+                       minlength="10" maxlength="10"required>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">
-                <f:message key="cardNumber"/> *
+                <f:message key="password"/> *
             </label>
             <div class="col-md-9">
-                <input type="password" class="form-control" name="card_number" placeholder="Card number"
-                       minlength="16" maxlength="16" required>
+                <input type="password" class="form-control" name="password" placeholder="Password"
+                       minlength="3" maxlength="16"required>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">
-                <f:message key="cvc"/> *
-            </label>
-            <div class="col-md-9">
-                <input type="password" class="form-control" name="cvc" placeholder="CVC"
-                       minlength="3" maxlength="3" required>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">
-                    <f:message key="expiration"/> *
-                </label>
-                <div class="col-md-9">
-                    <input type="password" class="form-control" name="expiration" placeholder="Expiration"
-                           minlength="4" maxlength="4" required>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">
-                        <f:message key="pinCode"/> *
-                    </label>
-                    <div class="col-md-9">
-                        <input type="password" class="form-control" name="pin" placeholder="pin"
-                               minlength="4" maxlength="4" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">
-                        <f:message key="password"/> *
-                    </label>
-                    <div class="col-md-9">
-                        <input type="password" class="form-control" name="password" placeholder="Password"
-                               minlength="3" maxlength="16">
-                    </div>
-                </div>
 
-
-                <div class="form-group">
-                    <!-- Button -->
-                    <div class="col-md-offset-3 col-md-9">
-                        <input type="submit" value="<f:message key="submit"/>" class="btn btn-primary">
-                    </div>
-                </div>
-
-            </div>
-        </div>
+            <!-- Button -->
+        <input type="submit" value="<f:message key="submit"/>" class="btn btn-primary">
     </form>
 </div>
 </html>

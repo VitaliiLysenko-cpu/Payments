@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<f:setLocale value="${param.lang}"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
@@ -13,11 +14,16 @@
                 <li><a href="${pageContext.request.contextPath}/user" class="nav-link px-2 link-dark">
                     <f:message key="account"/>
                 </a></li>
+                <li>
+                    <ul class="list-group list-group-horizontal">
+                        <c:forEach items="${locales}" var="locale">
+                            <li class="list-group-item">
+                                <a href="?lang=${locale}">${locale}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </li>
             </ul>
-
-            <div class="dropdown text-end">
-
-            </div>
 
             <div class="dropdown text-end">
 
@@ -34,8 +40,8 @@
                         <hr class="dropdown-divider">
                     <li><a class="dropdown-item"
                            href="${pageContext.request.contextPath}/request/new?id=${sessionScope.user.getUserId()}">
-                    <f:message key="accountCreationRequest"/>
-                </a></li>
+                        <f:message key="accountCreationRequest"/>
+                    </a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

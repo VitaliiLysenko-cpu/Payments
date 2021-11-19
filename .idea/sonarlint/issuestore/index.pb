@@ -1,8 +1,4 @@
 
-‚
-Rsrc/main/java/com/lysenko/payments/servlets/authorization/RegistrationServlet.java,3/e/3e488debb9f0252c108801290cbe48797e43a79b
-x
-Hsrc/main/java/com/lysenko/payments/servlets/payments/PaymentServlet.java,6/1/610b563387f0b85e2e9561cd19e821e126244f3e
 l
 <src/main/java/com/lysenko/payments/logs/ContextListener.java,f/0/f076bb07a03c17eaac50f626dc35ed1bdea8b68b
 j
@@ -11,10 +7,6 @@ g
 7src/main/java/com/lysenko/payments/model/card/Card.java,9/e/9ed778e71f1924bd5908878910dda7bb365426de
 s
 Csrc/main/java/com/lysenko/payments/model/payment/PaymentStatus.java,0/c/0c50ee83507d23fafa7e0741e6013eb23f06f65b
-x
-Hsrc/main/java/com/lysenko/payments/servlets/payments/CommandFactory.java,4/6/4670ea73260d074c01db533b4d74fbdef7f3f643
-q
-Asrc/main/java/com/lysenko/payments/servlets/payments/Command.java,0/6/06be14c52d32dc5734fdbf2e3761d2fc796f4a6b
 m
 =src/main/java/com/lysenko/payments/model/user/UserStatus.java,2/8/282f52ace03ee66e848f76f41be50f84e5d76ff0
 g
