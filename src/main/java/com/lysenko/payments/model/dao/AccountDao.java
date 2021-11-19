@@ -1,14 +1,12 @@
 package com.lysenko.payments.model.dao;
 
+import com.lysenko.payments.NumberGenerator;
 import com.lysenko.payments.model.Pool;
 import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.entity.account.MarkChangeBalance;
 import com.lysenko.payments.model.entity.account.Status;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +21,7 @@ public class AccountDao {
     public static final String BALANCE = "balance";
     private static final String REQUEST_FOR_CREATE_NEW_ACCOUNT = "INSERT INTO create_account_request(userId) VALUE (?)";
     private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
+    private static final String CREATE_NEW_ACCOUNT = "INSERT INTO account ( name, number, user_id) VALUES(?,?,?)";
 
     public List<Account> getAllUserAccounts(int userId) {
         return getUserAccounts(userId, GET_USER_ACCOUNTS);
@@ -160,6 +159,23 @@ public class AccountDao {
              PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
             sentRequest.setInt(1, accountId);
             sentRequest.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void createAccount(int userId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT,  Statement.RETURN_GENERATED_KEYS)) {
+            Long number = NumberGenerator.get16DigitsNumber();
+            ps.setString(1, "Account: " + number.toString());
+            ps.setString(2, number.toString());
+            ps.setInt(3, userId);
+            ps.execute();
+            final ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
+            CardDao cardDao = new CardDao();
+            cardDao.newCard(generatedKeys.getInt(1));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

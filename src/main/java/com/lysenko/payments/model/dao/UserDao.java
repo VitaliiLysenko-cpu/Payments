@@ -67,12 +67,9 @@ public class UserDao {
                     //todo hash
                     statement.execute();
                     final ResultSet generatedKeys = statement.getGeneratedKeys();
-
-                    //create account
-                    //add account to db
-                    //get newly created account id
-                    //create card
-                    //add card to db
+                    generatedKeys.next();
+                    AccountDao accountDao = new AccountDao();
+                    accountDao.createAccount(generatedKeys.getInt(1));
                 }
             }
         } catch (SQLException throwables) {
