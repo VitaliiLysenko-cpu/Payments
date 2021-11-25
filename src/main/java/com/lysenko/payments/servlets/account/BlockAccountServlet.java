@@ -2,6 +2,7 @@ package com.lysenko.payments.servlets.account;
 
 import com.lysenko.payments.model.dao.AccountDao;
 import com.lysenko.payments.model.entity.account.Status;
+import org.apache.log4j.Logger;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,11 +12,16 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/block")
 public class BlockAccountServlet extends HttpServlet {
+    private final Logger log = Logger.getLogger(BlockAccountServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.debug("try to get accountId from param.");
         int accountId = Integer.parseInt(req.getParameter("id"));
+        log.debug(" accountId :" + accountId);
         AccountDao accountDao = new AccountDao();
-        accountDao.toBlockAccount(Status.BLOCKED, accountId);
+        accountDao.toChangeStatusAccount(Status.BLOCKED, accountId);
+        log.debug("coll method toChangeStatusAccount with Status>BLOCKED");
         resp.sendRedirect("/user");
     }
 }

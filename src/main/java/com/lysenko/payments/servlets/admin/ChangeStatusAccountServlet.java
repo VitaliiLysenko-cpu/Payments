@@ -22,9 +22,9 @@ public class ChangeStatusAccountServlet extends HttpServlet {
         AccountDao accountDao = new AccountDao();
         final String action = req.getPathInfo().substring(1);
         if (action.equals("block")) {
-            accountDao.toBlockAccount(Status.BLOCKED, accountId);
+            accountDao.toChangeStatusAccount(Status.BLOCKED, accountId);
         }else  if (action.equals("unblock")) {
-            accountDao.toBlockAccount(Status.OPEN, accountId);
+            accountDao.toChangeStatusAccount(Status.OPEN, accountId);
         }
         resp.sendRedirect("/customer?id=" + customerId);
     }

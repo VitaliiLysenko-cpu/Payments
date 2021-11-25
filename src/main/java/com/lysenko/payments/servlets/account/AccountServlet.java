@@ -5,7 +5,6 @@ import com.lysenko.payments.model.dao.CardDao;
 import com.lysenko.payments.model.dao.PaymentDao;
 import com.lysenko.payments.model.entity.Card;
 import com.lysenko.payments.model.entity.payment.Payment;
-import com.lysenko.payments.servlets.authorization.LoginServlet;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -29,23 +28,28 @@ public class AccountServlet extends HttpServlet {
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
-
         CardDao cardDao = new CardDao();
         PaymentDao paymentDao = new PaymentDao();
         AccountDao accountDao = new AccountDao();
+        log.debug("try to get cards");
         List<Card> cards = cardDao.getGetAccountCard(id);
+        log.debug("cards :" + cards);
         req.setAttribute("cards", cards);
 
+        log.debug("try to get payments for account");
         List<Payment> payments = paymentDao.getPaymentForAccount(id, page, sortBy);
+        log.debug("payments :" + payments) ;
         req.setAttribute("payments", payments);
         final int total = paymentDao.getPaymentsCount(id);
         int numberOfPages = total / paymentDao.ACCOUNTS_PER_PAGE;
         if (total % PaymentDao.ACCOUNTS_PER_PAGE != 0) {
             numberOfPages++;
         }
+        log.debug("try to get balance by id");
         double balance = accountDao.getAccountBalance(id);
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("balance", balance);
+        log.debug("try set attribute numberOfPage :" + numberOfPages + "balance" + balance);
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }
 }

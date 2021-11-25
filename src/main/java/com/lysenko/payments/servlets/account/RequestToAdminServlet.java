@@ -1,6 +1,7 @@
 package com.lysenko.payments.servlets.account;
 
 import com.lysenko.payments.model.dao.AccountDao;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,11 +12,16 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/sent-request")
 public class RequestToAdminServlet extends HttpServlet {
+    private final Logger log = Logger.getLogger(RequestToAdminServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("try to get accountId from param.");
         int accountId = Integer.parseInt(req.getParameter("id"));
+        log.debug(" accountId :" + accountId);
         AccountDao accountDao = new AccountDao();
         accountDao.toSentRequest(accountId);
+        log.debug("coll toSentRequest with accountId");
         resp.sendRedirect("/user");
     }
 }

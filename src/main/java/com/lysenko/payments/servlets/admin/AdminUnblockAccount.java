@@ -1,10 +1,10 @@
 package com.lysenko.payments.servlets.admin;
 
 
-
 import com.lysenko.payments.model.dao.AccountDao;
 import com.lysenko.payments.model.dao.RequestUnblockDao;
 import com.lysenko.payments.model.entity.account.Status;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +15,18 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/request_unblock_account")
 public class AdminUnblockAccount extends HttpServlet {
+    private final Logger log = Logger.getLogger(AdminUnblockAccount.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-      int accountId = Integer.parseInt(req.getParameter("id"));
+        log.debug("try to get accountId from param.");
+        int accountId = Integer.parseInt(req.getParameter("id"));
+        log.debug("accountId :" + accountId);
         AccountDao accountDao = new AccountDao();
-        accountDao.toBlockAccount(Status.OPEN, accountId);
+        log.debug("coll toChangeStatusAccount with \"Status.OPEN\" ");
+        accountDao.toChangeStatusAccount(Status.OPEN, accountId);
         RequestUnblockDao requestUnblockDao = new RequestUnblockDao();
+        log.debug("coll changeRequestStatus");
         requestUnblockDao.changeRequestStatus(accountId);
         resp.sendRedirect("/unblock_account");
     }

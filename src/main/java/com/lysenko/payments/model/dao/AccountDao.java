@@ -5,6 +5,8 @@ import com.lysenko.payments.model.Pool;
 import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.entity.account.MarkChangeBalance;
 import com.lysenko.payments.model.entity.account.Status;
+import com.lysenko.payments.servlets.authorization.LoginServlet;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ public class AccountDao {
     private static final String CREATE_NEW_ACCOUNT = "INSERT INTO account ( name, number, user_id) VALUES(?,?,?)";
     private static final String GET_REQUEST_UNBLOCK_COUNT = "SELECT COUNT(*) AS numberOfUsers FROM request_unblock" +
             " WHERE status = 'NEW'";
-
     private static final String GET_ACCOUNTS_COUNT = "SELECT COUNT(*) AS numberOfAccounts FROM account";
+    private final Logger log = Logger.getLogger(AccountDao.class);
 
     public static int getAccountCount() {
         return getCountBY(GET_REQUEST_UNBLOCK_COUNT);
@@ -89,7 +91,7 @@ public class AccountDao {
             ResultSet rs = statement.executeQuery();
             return resultSetToAccounts(rs);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("can not to get accounts", throwables);
         }
         return Collections.emptyList();
     }
@@ -120,7 +122,7 @@ public class AccountDao {
         try (Connection connection = Pool.getInstance().getConnection()) {
             changeBalance(total, accountId, mark, connection);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("Can not change balance", throwables);
         }
     }
 
@@ -182,7 +184,7 @@ public class AccountDao {
         return 0;
     }
 
-    public void toBlockAccount(Status action, int accountId) {
+    public void toChangeStatusAccount(Status action, int accountId) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement changeStatus = connection.prepareStatement(CHANGE_STATUS_ACCOUNT)) {
             changeStatus.setString(1, action.name());
@@ -190,7 +192,7 @@ public class AccountDao {
             changeStatus.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+           log.error("Can not change status account", throwables);
         }
     }
 
@@ -201,7 +203,7 @@ public class AccountDao {
             sentRequest.setInt(1, accountId);
             sentRequest.execute();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("Can not to sent request", throwables);
         }
     }
 

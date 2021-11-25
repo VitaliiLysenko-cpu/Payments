@@ -35,7 +35,7 @@ public class UserDao {
             rs.next();
             return rs.getInt(1);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("can not to get user count", throwables);
         }
         return 0;
     }

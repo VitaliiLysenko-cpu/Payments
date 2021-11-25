@@ -4,6 +4,8 @@ import com.lysenko.payments.model.Pool;
 
 import com.lysenko.payments.model.entity.account.request.RequestUnblock;
 import com.lysenko.payments.model.entity.account.request.StatusRequest;
+import com.lysenko.payments.servlets.admin.AdminServlet;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +18,7 @@ public class RequestUnblockDao {
     private static final String GET_ACCOUNTS_FOR_UNBLOCK = "SELECT * FROM request_unblock WHERE status = 'NEW'";
     private static final String CHANGE_REQUEST_STATUS = "UPDATE request_unblock SET status = 'DONE' WHERE account_id =?" ;
 
-
+    private final Logger log = Logger.getLogger(RequestUnblockDao.class);
     public List<RequestUnblock> getAccountsForUnblock() {
         List<RequestUnblock> requestUnblocks = new ArrayList<>();
         try (Connection connection = Pool.getInstance().getConnection();
@@ -52,7 +54,7 @@ public class RequestUnblockDao {
             ps.setInt(1, accountId);
             ps.execute();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("can not change request status", throwables);
         }
     }
 }

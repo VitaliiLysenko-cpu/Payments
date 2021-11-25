@@ -1,8 +1,8 @@
 package com.lysenko.payments.servlets.authorization;
 
+import com.lysenko.payments.model.dao.UserDao;
 import com.lysenko.payments.model.entity.user.Role;
 import com.lysenko.payments.model.entity.user.User;
-import com.lysenko.payments.model.dao.UserDao;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
