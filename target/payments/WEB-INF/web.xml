@@ -54,7 +54,7 @@
         <filter-class>com.lysenko.payments.utils.SecurityFilter</filter-class>
         <init-param>
             <param-name>admin</param-name>
-            <param-value>/admin /customer /customer/block /customer/unblock /customer-account/block /customer-account/unblock</param-value>
+            <param-value>/admin /customer /customer/block /customer/unblock /customer-account/block /customer-account/unblock /unblock_account /request_unblock_account</param-value>
         </init-param>
         <init-param>
             <param-name>user</param-name>

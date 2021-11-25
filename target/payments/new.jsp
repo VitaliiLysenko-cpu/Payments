@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
 <form class="form-horizontal needs-validation" id="create" role="form" method="post"
-      action="${pageContext.request.contextPath}/payment/create" >
+      action="${pageContext.request.contextPath}/payment/create" style="width:50%">
     <div class="mb-3 form-group col-lg-2">
         <label for="total" class="form-label"><f:message key="total"/>*</label>
         <input id="total" type="number" min="0" step="0.01" class="form-control" name="total" required>
@@ -30,6 +30,7 @@
                     ${account.getNumber()}, ${account.getBalance()}</option>
         </c:forEach>
     </select>
+    <br>
     <input type="submit" value="<f:message key="pay"/>" class="btn btn-primary">
 </form>
 

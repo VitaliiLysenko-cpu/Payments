@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @WebServlet(urlPatterns = "/create_user")
 public class CreateNewUserServlet extends HttpServlet {
     private final UserDao userDao = new UserDao();

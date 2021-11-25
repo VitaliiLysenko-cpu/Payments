@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
@@ -11,6 +12,15 @@
                 <li><a href="${pageContext.request.contextPath}/admin?page=1" class="nav-link px-2 link-dark">
                     <f:message key="home"/>
                 </a></li>
+                <li>
+                    <ul class="list-group list-group-horizontal">
+                        <c:forEach items="${locales}" var="locale">
+                            <li class="list-group-item">
+                                <a href="?lang=${locale}&${pageContext.request.queryString}">${locale}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </li>
 
             </ul>
 
@@ -18,10 +28,12 @@
 
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/images/account.png" alt="mdo" width="32" height="32"
-                         class="rounded-circle">
+                    <img src="${pageContext.request.contextPath}/images/account.png" alt=<f:message key="menu"/> >
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/unblock_account">
+                        <f:message key="unblock"/> <f:message key="account"/>
+                    </a></li>
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sign_out">
                         <f:message key="singOut"/>
                     </a></li>

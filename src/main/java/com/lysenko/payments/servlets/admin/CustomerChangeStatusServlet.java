@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/customer/*"})
-public class CustomerBlockServlet extends HttpServlet {
+public class CustomerChangeStatusServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String customerId = req.getParameter("userId");
@@ -22,6 +22,6 @@ public class CustomerBlockServlet extends HttpServlet {
         } else {
             userDao.toBlockUser(UserStatus.UNBLOCKED,customerId);
         }
-        resp.sendRedirect("/admin");
+        resp.sendRedirect(req.getHeader("referer"));
     }
 }

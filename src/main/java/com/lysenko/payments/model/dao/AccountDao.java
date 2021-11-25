@@ -11,50 +11,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.lysenko.payments.model.dao.PaymentDao.ACCOUNTS_PER_PAGE;
+import static com.lysenko.payments.utils.RowsCounterInTable.getCountBY;
+
 public class AccountDao {
 
     public static final String SENT_REQUEST_TO_UNBLOCK = "INSERT INTO request_unblock(account_id) VALUES (?)";
     public static final String CHANGE_STATUS_ACCOUNT = "UPDATE account SET status = ? WHERE id = ?";
     public static final String GET_BALANCE_FROM_ACCOUNT = "SELECT balance FROM account WHERE id = ?";
     public static final String CHANGE_BALANCE_FOR_ACCOUNT = "UPDATE account SET balance = ? WHERE id = ?";
-    public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ?";
+    public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? ORDER BY %s ASC LIMIT ?,?";
     public static final String BALANCE = "balance";
+    public static final int ACCOUNT_GET_PAGE = 3;
     private static final String REQUEST_FOR_CREATE_NEW_ACCOUNT = "INSERT INTO create_account_request(userId) VALUE (?)";
     private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
+    private static final String GET_SORTED_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? ORDER BY ? DESC";
     private static final String CREATE_NEW_ACCOUNT = "INSERT INTO account ( name, number, user_id) VALUES(?,?,?)";
+    private static final String GET_REQUEST_UNBLOCK_COUNT = "SELECT COUNT(*) AS numberOfUsers FROM request_unblock" +
+            " WHERE status = 'NEW'";
 
-    public List<Account> getAllUserAccounts(int userId) {
-        return getUserAccounts(userId, GET_USER_ACCOUNTS);
+    private static final String GET_ACCOUNTS_COUNT = "SELECT COUNT(*) AS numberOfAccounts FROM account";
+
+    public static int getAccountCount() {
+        return getCountBY(GET_REQUEST_UNBLOCK_COUNT);
     }
 
-    public List<Account> getUserOpenAccounts(int userId) {
-        return getUserAccounts(userId, GET_USER_OPEN_ACCOUNTS);
-    }
-
-    private List<Account> getUserAccounts(int userId, String query) {
-        try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            ResultSet rs = statement.executeQuery();
-            return resultSetToAccounts(rs);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return Collections.emptyList();
-    }
-
-    public void requestForCreateNewAccount(String userId) {
-        try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(REQUEST_FOR_CREATE_NEW_ACCOUNT)) {
-            ps.setString(1, userId);
-            ps.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-
-    private List<Account> resultSetToAccounts(ResultSet rs) throws SQLException {
+    private static List<Account> resultSetToAccounts(ResultSet rs) throws SQLException {
         List<Account> result = new ArrayList<>();
         Status statusEnum;
         while (rs.next()) {
@@ -74,6 +56,64 @@ public class AccountDao {
             result.add(account);
         }
         return result;
+    }
+
+    public List<Account> getAllUserAccounts(int userId, int page, String columnName) {
+        String sql = String.format(GET_USER_ACCOUNTS, columnName);
+        int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, offset);
+            statement.setInt(3, ACCOUNTS_PER_PAGE);
+            ResultSet rs = statement.executeQuery();
+            return resultSetToAccounts(rs);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<Account> getUserOpenAccounts(int userId) {
+        return getAccounts(userId, GET_USER_OPEN_ACCOUNTS);
+    }
+
+    public List<Account> getAllSortedUserAccounts(int userId) {
+        return getAccounts(userId, GET_SORTED_USER_OPEN_ACCOUNTS);
+    }
+
+    private List<Account> getAccounts(int userId, String getSortedUserOpenAccounts) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(getSortedUserOpenAccounts)) {
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            return resultSetToAccounts(rs);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public int getAccountsCount() {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(GET_ACCOUNTS_COUNT)) {
+            final ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void requestForCreateNewAccount(String userId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(REQUEST_FOR_CREATE_NEW_ACCOUNT)) {
+            ps.setString(1, userId);
+            ps.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void changeBalance(double total, int accountId, MarkChangeBalance mark) {
@@ -154,6 +194,7 @@ public class AccountDao {
         }
     }
 
+
     public void toSentRequest(int accountId) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
@@ -166,7 +207,7 @@ public class AccountDao {
 
     public void createAccount(int userId) {
         try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT,  Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
             Long number = NumberGenerator.get16DigitsNumber();
             ps.setString(1, "Account: " + number.toString());
             ps.setString(2, number.toString());

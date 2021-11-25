@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.lysenko.payments.model.entity.account.Status" %>
@@ -7,21 +7,33 @@
 <f:setBundle basename="locale"/>
 
 <html>
+
 <head>
+    <title>User account</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
-
-<table id="table-accounts" class="table">
+<h4><f:message key="accounts_information"/></h4>
+<table id="table-accounts" class="table" style="width: 50%">
     <thead>
     <tr>
-        <th scope="col"><f:message key="name"/></th>
-        <th scope="col"><f:message key="number"/></th>
+        <th scope="col">
+            <a href="${pageContext.request.contextPath}/user?sortBy=name">
+                <f:message key="name"/></a></th>
+        <th scope="col">
+            <a href="${pageContext.request.contextPath}/user?sortBy=number">
+                <f:message key="number"/></a>
+        </th>
         <th scope="col"><f:message key="amount"/></th>
         <th scope="col"><f:message key="status"/></th>
         <th scope="col"><f:message key="changeStatus"/></th>
@@ -30,6 +42,7 @@
     </tr>
     </thead>
     <tbody>
+    <jsp:useBean id="accounts" scope="request" type="java.util.List"/>
     <c:forEach items="${accounts}" var="account">
         <tr>
             <td>
@@ -49,10 +62,12 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.OPEN }">
-                        <a href="${pageContext.request.contextPath}/block?id=${account.getId()}"><f:message key="block"/></a>
+                        <a href="${pageContext.request.contextPath}/block?id=${account.getId()}"><f:message
+                                key="block"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/sent-request?id=${account.getId()}"><f:message key="unblock"/></a>
+                        <a href="${pageContext.request.contextPath}/sent-request?id=${account.getId()}"><f:message
+                                key="unblock"/></a>
                     </c:otherwise>
                 </c:choose>
             </td>
@@ -62,6 +77,16 @@
 
     </tbody>
 </table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
+            <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/user?id=${account.getId()}&page=${i}">${i}</a>
+            </li>
+        </c:forEach>
+    </ul>
+</nav>
 
 </body>
 </html>
