@@ -1,8 +1,6 @@
 
 }
 Msrc/main/java/com/lysenko/payments/servlets/authorization/SingOutServlet.java,0/1/01820e3c4a715ce940554e3c69ed365c17c2d835
-X
-(src/main/webapp/WEB-INF/log4j.properties,e/4/e4dc62a5cae25b2d6e76633def3ed772afe4b7b4
 €
 Psrc/main/java/com/lysenko/payments/servlets/user/RequestForCreateNewAccount.java,e/7/e73956b492dcf155e3b7a969e9ab0586f1a7ac56
 i

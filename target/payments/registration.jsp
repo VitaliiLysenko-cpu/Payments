@@ -21,17 +21,18 @@
 
 
         <div class="form-group">
-            <label for="email" class="col-md-3 control-label">
+            <label  class="col-md-3 control-label">
             <f:message key="email"/> *</label>
-            <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" required>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                <small id="emailHelp" class="form-text text-muted"><f:message key="we_will_never_share_your_email_with_anyone_else"/></small>
         </div>
 
         <div class="form-group">
-            <%--@declare id="firstname"--%><label for="firstname" class="col-md-3 control-label">
+            <label  class="col-md-3 control-label">
             <f:message key="firstName"/> *
         </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
+                <input type="text" class="form-control" name="firstname"  required>
             </div>
         </div>
         <div class="form-group">
@@ -39,7 +40,7 @@
                 <f:message key="lastName"/> *
             </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
+                <input type="text" class="form-control" name="lastname"  required>
             </div>
         </div>
 
@@ -48,7 +49,7 @@
                 <f:message key="phoneNum"/>
             </label>
             <div class="col-md-9">
-                <input type="text" class="form-control" name="phone" placeholder="phone number"
+                <input type="text" class="form-control" name="phone"
                        minlength="10" maxlength="10"required>
             </div>
         </div>
@@ -57,7 +58,7 @@
                 <f:message key="password"/> *
             </label>
             <div class="col-md-9">
-                <input type="password" class="form-control" name="password" placeholder="Password"
+                <input type="password" class="form-control" name="password"
                        minlength="3" maxlength="16"required>
             </div>
         </div>

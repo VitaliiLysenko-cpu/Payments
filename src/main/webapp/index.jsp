@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <form class="form-horizontal needs-validation" id="loginform" role="form" method="post " style="width:50%"
-          action="${pageContext.request.contextPath}/login" novalidate>
+          action="${pageContext.request.contextPath}/login">
         <div class="mb-3 form-group col-lg-2">
             <label for="login-username" class="form-label"><f:message key="email"/>*</label>
             <input id="login-username" type="email" class="form-control" name="email" required>

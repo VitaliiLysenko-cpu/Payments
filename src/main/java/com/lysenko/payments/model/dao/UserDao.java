@@ -4,6 +4,7 @@ import com.lysenko.payments.model.Pool;
 import com.lysenko.payments.model.entity.user.Role;
 import com.lysenko.payments.model.entity.user.User;
 import com.lysenko.payments.model.entity.user.UserStatus;
+import org.apache.log4j.Logger;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -25,6 +26,7 @@ public class UserDao {
             "name,surname,phone_num,password)VALUES (?,?,?,?,?)";
     private static final String GET_USERS_COUNT = "SELECT COUNT(*) AS numberOfUsers FROM user WHERE role = ?";
 
+    private final Logger log = Logger.getLogger(UserDao.class);
     public int getUsersCount() {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_USERS_COUNT)) {
@@ -46,7 +48,7 @@ public class UserDao {
             ResultSet resultSet = statement.executeQuery();
             return createUser(resultSet);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("Login error", throwables);
         }
         return null;
     }
