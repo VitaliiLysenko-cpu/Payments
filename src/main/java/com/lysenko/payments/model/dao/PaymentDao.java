@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.lysenko.payments.model.entity.payment.PaymentStatus.DONE;
 import static com.lysenko.payments.model.entity.payment.PaymentStatus.NEW;
-import static com.lysenko.payments.utils.RowsCounterInTable.getCountBY;
+import static com.lysenko.payments.model.dao.RowsCounterInTable.getCountBY;
 
 public class PaymentDao {
     public static final int ACCOUNTS_PER_PAGE = 3;
@@ -46,8 +46,6 @@ public class PaymentDao {
     public int getPaymentsCount(String accountId){
         return getCountBY(accountId, GET_PAYMENTS_COUNT);
     }
-
-
 
     private List<Payment> resultSetToResult(ResultSet rs) throws SQLException {
         List<Payment> result = new ArrayList<>();

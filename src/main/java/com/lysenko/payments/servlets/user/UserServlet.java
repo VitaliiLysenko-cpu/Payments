@@ -16,6 +16,12 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/user"})
 public class UserServlet extends HttpServlet {
 
+    private AccountDao accountDao = new AccountDao();
+
+    public void setAccountDao(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -27,12 +33,11 @@ public class UserServlet extends HttpServlet {
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
-        AccountDao accountDao = new AccountDao();
+
         List<Account> accounts = accountDao.getAllUserAccounts(user.getUserId(), page, sortBy);
-        req.setAttribute("accounts", accounts);
-        final int accountsCount = accountDao.getAccountsCount();
-        int numberOfPages = accountsCount / accountDao.ACCOUNT_GET_PAGE;
-        if (accountsCount % accountDao.ACCOUNT_GET_PAGE != 0) {
+        final int accountsCount = accountDao.getAccountsCount(user.getUserId());
+        int numberOfPages = accountsCount / AccountDao.ACCOUNT_GET_PAGE;
+        if (accountsCount % AccountDao.ACCOUNT_GET_PAGE != 0) {
             numberOfPages++;
         }
         req.setAttribute("numberOfPages", numberOfPages);

@@ -1,5 +1,6 @@
 package com.lysenko.payments.servlets.authorization;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.lysenko.payments.model.dao.UserDao;
 import com.lysenko.payments.model.entity.user.Role;
 import com.lysenko.payments.model.entity.user.User;
@@ -16,7 +17,12 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
 
     private final Logger log = Logger.getLogger(LoginServlet.class);
-    private final UserDao userDao = new UserDao();
+    private UserDao userDao = new UserDao();
+
+    @VisibleForTesting
+    void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -30,20 +36,20 @@ public class LoginServlet extends HttpServlet {
         log.debug("try to login user");
         User user = userDao.logIn(login, password);
 
-        if(user != null) {
+        if (user != null) {
             log.debug("user logged in successfully");
             req.getSession().setAttribute("user", user);
-            if(user.getRole() == Role.USER) {
+            if (user.getRole() == Role.USER) {
                 log.debug("user is regular user, redirecting to /user");
                 resp.sendRedirect("/user");
-            }else {
+            } else {
                 log.debug("user is admin, redirecting to /admin");
                 resp.sendRedirect("/admin?page=1");
             }
         } else {
             log.debug("user entered invalid credentials");
             req.setAttribute("error", "Invalid credentials");
-            req.getRequestDispatcher("index.jsp").forward(req,resp);
+            req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
     }
 }

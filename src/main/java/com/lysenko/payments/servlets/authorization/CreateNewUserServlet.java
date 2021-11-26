@@ -1,6 +1,9 @@
 package com.lysenko.payments.servlets.authorization;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.lysenko.payments.model.dao.UserDao;
+import org.apache.log4j.Logger;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,16 +13,27 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/create_user")
 public class CreateNewUserServlet extends HttpServlet {
-    private final UserDao userDao = new UserDao();
+    private final Logger log = Logger.getLogger(CreateNewUserServlet.class);
+    private UserDao userDao = new UserDao();
+
+    @VisibleForTesting
+    void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.debug("try get parameters");
         String email = request.getParameter("email");
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
         String phoneNum = request.getParameter("phone");
         String password = request.getParameter("password");
-        userDao.registration(email,firstname,lastname,phoneNum,password);
+        log.debug("email: " + email + "firstname: " + firstname + "lastname: " + lastname + "phone: " + phoneNum
+                + "password: " + password);
+        log.debug("coll \"registration\"");
+        userDao.registration(email, firstname, lastname, phoneNum, password);
+        log.debug("redirect to \"login\"");
         response.sendRedirect("/login");
     }
 }

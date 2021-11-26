@@ -5,7 +5,6 @@ import com.lysenko.payments.model.Pool;
 import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.entity.account.MarkChangeBalance;
 import com.lysenko.payments.model.entity.account.Status;
-import com.lysenko.payments.servlets.authorization.LoginServlet;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -14,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.lysenko.payments.model.dao.PaymentDao.ACCOUNTS_PER_PAGE;
-import static com.lysenko.payments.utils.RowsCounterInTable.getCountBY;
 
 public class AccountDao {
 
@@ -25,18 +23,11 @@ public class AccountDao {
     public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? ORDER BY %s ASC LIMIT ?,?";
     public static final String BALANCE = "balance";
     public static final int ACCOUNT_GET_PAGE = 3;
-    private static final String REQUEST_FOR_CREATE_NEW_ACCOUNT = "INSERT INTO create_account_request(userId) VALUE (?)";
     private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
     private static final String GET_SORTED_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? ORDER BY ? DESC";
     private static final String CREATE_NEW_ACCOUNT = "INSERT INTO account ( name, number, user_id) VALUES(?,?,?)";
-    private static final String GET_REQUEST_UNBLOCK_COUNT = "SELECT COUNT(*) AS numberOfUsers FROM request_unblock" +
-            " WHERE status = 'NEW'";
-    private static final String GET_ACCOUNTS_COUNT = "SELECT COUNT(*) AS numberOfAccounts FROM account";
+    private static final String GET_ACCOUNTS_COUNT = "SELECT COUNT(*) AS numberOfAccounts FROM account WHERE user_id = ?";
     private final Logger log = Logger.getLogger(AccountDao.class);
-
-    public static int getAccountCount() {
-        return getCountBY(GET_REQUEST_UNBLOCK_COUNT);
-    }
 
     private static List<Account> resultSetToAccounts(ResultSet rs) throws SQLException {
         List<Account> result = new ArrayList<>();
@@ -96,9 +87,10 @@ public class AccountDao {
         return Collections.emptyList();
     }
 
-    public int getAccountsCount() {
+    public int getAccountsCount(int userId) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ACCOUNTS_COUNT)) {
+            ps.setInt(1, userId);
             final ResultSet rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);
@@ -106,16 +98,6 @@ public class AccountDao {
             throwables.printStackTrace();
         }
         return 0;
-    }
-
-    public void requestForCreateNewAccount(String userId) {
-        try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(REQUEST_FOR_CREATE_NEW_ACCOUNT)) {
-            ps.setString(1, userId);
-            ps.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     public void changeBalance(double total, int accountId, MarkChangeBalance mark) {

@@ -15,8 +15,6 @@ import java.util.List;
 
 public class CardDao {
     private static final String GET_ACCOUNT_CARD = "SELECT * FROM payment_card WHERE account_id = ?";
-    private static final String ADD_USER_CARD = "INSERT INTO payment_card(account_id,card_number, expiration, cvc_code) " +
-            "VALUES (?,?,?,?) ";
     private static final String CREATE_NEW_CARD = "INSERT INTO payment_card(card_number, expiration, cvc_code, account_id) VALUES (?, ?, ?, ?)";
 
     public void newCard(int accountId) {
@@ -57,20 +55,5 @@ public class CardDao {
             result.add(card);
         }
         return result;
-    }
-
-    public void addCard(int userId, String cardNumber, String cvc, String expiration) {
-        try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(ADD_USER_CARD)) {
-            ps.setInt(1, userId);
-            ps.setString(2, cardNumber);
-            //todo hash
-            ps.setString(3, cvc);
-            //todo hash
-
-            ps.setString(4, expiration);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }

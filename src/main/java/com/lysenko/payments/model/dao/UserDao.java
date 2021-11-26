@@ -6,15 +6,10 @@ import com.lysenko.payments.model.entity.user.User;
 import com.lysenko.payments.model.entity.user.UserStatus;
 import org.apache.log4j.Logger;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserDao {
     public static final Integer USERS_PER_PAGE = 3;
@@ -75,7 +70,7 @@ public class UserDao {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.error("account was not created", throwables);
         }
     }
 
@@ -131,33 +126,6 @@ public class UserDao {
         return Collections.emptyList();
     }
 
-    //TODO add email validation
-    private boolean checkEmail(String email) {
-        String regex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    //TODO add password hashing
-    private String hash(String input) {
-        String md5Hashed = null;
-        if (null == input) {
-            return null;
-        }
-
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(input.getBytes(), 0, input.length());
-            md5Hashed = new BigInteger(1, digest.digest()).toString(16);
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return md5Hashed;
-    }
-
     public void toBlockUser(UserStatus action, String userId) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(CHANGE_USER_STATUS)) {
@@ -168,6 +136,4 @@ public class UserDao {
             throwables.printStackTrace();
         }
     }
-
-
 }

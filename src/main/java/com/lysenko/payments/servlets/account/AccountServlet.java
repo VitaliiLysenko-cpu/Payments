@@ -41,7 +41,7 @@ public class AccountServlet extends HttpServlet {
         log.debug("payments :" + payments) ;
         req.setAttribute("payments", payments);
         final int total = paymentDao.getPaymentsCount(id);
-        int numberOfPages = total / paymentDao.ACCOUNTS_PER_PAGE;
+        int numberOfPages = total / PaymentDao.ACCOUNTS_PER_PAGE;
         if (total % PaymentDao.ACCOUNTS_PER_PAGE != 0) {
             numberOfPages++;
         }

@@ -41,10 +41,10 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", number='" + number + '\'' +
-                ", balance=" + balance +
+                "id= " + id +
+                ", name= "  + name + '\'' +
+                ", number= " + number + '\'' +
+                ", balance= " + balance +
                 '}';
     }
 }

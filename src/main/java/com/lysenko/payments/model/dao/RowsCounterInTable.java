@@ -1,4 +1,4 @@
-package com.lysenko.payments.utils;
+package com.lysenko.payments.model.dao;
 
 import com.lysenko.payments.model.Pool;
 

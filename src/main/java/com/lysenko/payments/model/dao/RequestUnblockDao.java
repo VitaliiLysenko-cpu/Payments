@@ -1,10 +1,8 @@
 package com.lysenko.payments.model.dao;
 
 import com.lysenko.payments.model.Pool;
-
-import com.lysenko.payments.model.entity.account.request.RequestUnblock;
-import com.lysenko.payments.model.entity.account.request.StatusRequest;
-import com.lysenko.payments.servlets.admin.AdminServlet;
+import com.lysenko.payments.model.entity.request.RequestUnblock;
+import com.lysenko.payments.model.entity.request.StatusRequest;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -16,10 +14,11 @@ import java.util.List;
 
 public class RequestUnblockDao {
     private static final String GET_ACCOUNTS_FOR_UNBLOCK = "SELECT * FROM request_unblock WHERE status = 'NEW'";
-    private static final String CHANGE_REQUEST_STATUS = "UPDATE request_unblock SET status = 'DONE' WHERE account_id =?" ;
+    private static final String CHANGE_REQUEST_STATUS = "UPDATE request_unblock SET status = 'DONE' WHERE account_id =?";
 
     private final Logger log = Logger.getLogger(RequestUnblockDao.class);
-    public List<RequestUnblock> getAccountsForUnblock() {
+
+    public List<RequestUnblock> getAccountsToUnblock() {
         List<RequestUnblock> requestUnblocks = new ArrayList<>();
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ACCOUNTS_FOR_UNBLOCK)) {
@@ -28,13 +27,12 @@ public class RequestUnblockDao {
                 requestUnblocks.add(create(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
-
+            log.error("can not added element to requestUnblocks", throwables);
         }
         return requestUnblocks;
     }
 
-    private RequestUnblock create( ResultSet rs) throws SQLException {
+    private RequestUnblock create(ResultSet rs) throws SQLException {
         StatusRequest statusEnum;
         int id = rs.getInt("id");
         if ("NEW".equals(rs.getString("status"))) {
@@ -43,14 +41,15 @@ public class RequestUnblockDao {
             statusEnum = StatusRequest.DONE;
         }
         return new RequestUnblock(
-                 id,
-                 statusEnum,
-                 rs.getInt("account_id")
-         );
+                id,
+                statusEnum,
+                rs.getInt("account_id")
+        );
     }
-    public void changeRequestStatus( int accountId){
-        try(Connection connection = Pool.getInstance().getConnection();
-            PreparedStatement ps = connection.prepareStatement(CHANGE_REQUEST_STATUS)) {
+
+    public void changeRequestStatus(int accountId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(CHANGE_REQUEST_STATUS)) {
             ps.setInt(1, accountId);
             ps.execute();
         } catch (SQLException throwables) {

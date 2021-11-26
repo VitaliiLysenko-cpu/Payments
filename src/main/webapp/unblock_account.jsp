@@ -45,7 +45,6 @@
 
   </tbody>
 </table>
-</tr>
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">

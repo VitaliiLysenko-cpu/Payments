@@ -1,6 +1,8 @@
 package com.lysenko.payments.servlets.admin;
+
 import com.lysenko.payments.model.dao.RequestUnblockDao;
-import com.lysenko.payments.model.entity.account.request.RequestUnblock;
+import com.lysenko.payments.model.entity.request.RequestUnblock;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,11 +15,16 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/unblock_account")
 public class RequestUnblockAccountServlet extends HttpServlet {
+    private final Logger log = Logger.getLogger(RequestUnblockAccountServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-RequestUnblockDao requests = new RequestUnblockDao();
-        List<RequestUnblock> requestUnblocks = requests.getAccountsForUnblock();
-       req.setAttribute("requests",requestUnblocks);
-       req.getRequestDispatcher("/unblock_account.jsp").forward(req, resp);
+        RequestUnblockDao requests = new RequestUnblockDao();
+        log.debug("try get accounts to unblock");
+        List<RequestUnblock> requestUnblocks = requests.getAccountsToUnblock();
+        log.debug("try set attribute \"requests\"");
+        req.setAttribute("requests", requestUnblocks);
+        log.debug("forward to \"unblock_account.jsp\"");
+        req.getRequestDispatcher("/unblock_account.jsp").forward(req, resp);
     }
 }
