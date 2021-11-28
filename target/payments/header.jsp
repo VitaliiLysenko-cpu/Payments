@@ -37,12 +37,6 @@
                     </a></li>
                     <li>
                         <hr class="dropdown-divider">
-                    <li><a class="dropdown-item"
-                           href="${pageContext.request.contextPath}/request/new?id=${sessionScope.user.getUserId()}">
-                        <f:message key="accountCreationRequest"/>
-                    </a></li>
-                    <li>
-                        <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sign_out">
                         <f:message key="singOut"/>

@@ -22,17 +22,17 @@ public class ChangeAccountStatusServlet extends HttpServlet {
         log.debug("try to get accountId from param.");
         int accountId = Integer.parseInt(req.getParameter("accountId"));
         log.debug("accountId : " + accountId);
-        log.debug("try get parameter \"customerId\"");
+        log.debug("try to get parameter \"customerId\"");
         String customerId = req.getParameter("customerId");
         log.debug("customerId : " + customerId);
         AccountDao accountDao = new AccountDao();
         log.debug("get action from path string");
         final String action = req.getPathInfo().substring(1);
         if (action.equals("block")) {
-            log.debug("try change status to BLOCKED with " + action);
+            log.debug("try to change status to BLOCKED with " + action);
             accountDao.toChangeStatusAccount(Status.BLOCKED, accountId);
         } else if (action.equals("unblock")) {
-            log.debug("try change status to OPEN with " + action);
+            log.debug("try to change status to OPEN with " + action);
             accountDao.toChangeStatusAccount(Status.OPEN, accountId);
         }
         log.debug("sendRedirect to \"customer?id\" ");

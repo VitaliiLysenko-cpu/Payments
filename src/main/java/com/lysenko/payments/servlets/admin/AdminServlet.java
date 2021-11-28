@@ -5,6 +5,7 @@ import com.lysenko.payments.model.dao.UserDao;
 import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.entity.user.User;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,10 +43,10 @@ public class AdminServlet extends HttpServlet {
             numberOfPages++;
         }
         req.setAttribute("numberOfPages", numberOfPages);
-        log.debug("try to get all sorted users with param \"page\"");
-        List<Account> accounts = accountDao.getAllSortedUserAccounts(page);
-        log.debug("accounts : " + accounts);
-        req.setAttribute("accounts", accounts);
+//        log.debug("try to get all sorted users with param \"page\"");
+//        List<Account> accounts = accountDao.getAllSortedUserAccounts(page);
+//        log.debug("accounts : " + accounts);
+//        req.setAttribute("accounts", accounts);
         req.getRequestDispatcher("/admin.jsp").forward(req, resp);
     }
 }

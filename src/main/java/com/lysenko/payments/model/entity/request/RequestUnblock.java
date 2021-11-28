@@ -1,6 +1,8 @@
 package com.lysenko.payments.model.entity.request;
 
-public class RequestUnblock {
+import java.io.Serializable;
+
+public class RequestUnblock implements Serializable {
    private int id;
    private StatusRequest statusRequest;
    private int accountId;

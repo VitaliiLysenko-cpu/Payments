@@ -16,10 +16,10 @@ public class NewPaymentCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("try get session and user");
+        log.debug("try to get session and user");
         User user = (User) req.getSession().getAttribute("user");
         AccountDao accountDao = new AccountDao();
-        log.debug("try get accounts by userId");
+        log.debug("try to get accounts by userId");
         List<Account> accounts = accountDao.getUserOpenAccounts(user.getUserId());
         log.debug("set attribute \"accounts\"");
         req.setAttribute("accounts", accounts);

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class ContextListener implements ServletContextListener {
-    private static final Logger log = Logger.getLogger(ContextListener.class);
+    private static final Logger log = Logger.getLogger(ServletContextListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -65,7 +65,7 @@ public class ContextListener implements ServletContextListener {
         try {
             PropertyConfigurator.configure(servletContext.getRealPath("WEB-INF/log4j.properties"));
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("can not Log$J initialization",ex);
         }
         log("Log4J initialization finished");
     }

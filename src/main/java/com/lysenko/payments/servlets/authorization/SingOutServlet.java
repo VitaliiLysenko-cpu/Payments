@@ -16,11 +16,11 @@ public class SingOutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("try get session");
+        log.debug("try to get session");
         final HttpSession session = req.getSession(false);
 
         if (session != null) {
-            log.debug("try get invalidate session");
+            log.debug("try to get invalidate session");
             req.getSession().invalidate();
         }
         log.debug("redirect to \"/\"");

@@ -20,9 +20,9 @@ public class RequestUnblockAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestUnblockDao requests = new RequestUnblockDao();
-        log.debug("try get accounts to unblock");
+        log.debug("try to get accounts to unblock");
         List<RequestUnblock> requestUnblocks = requests.getAccountsToUnblock();
-        log.debug("try set attribute \"requests\"");
+        log.debug("try to set attribute \"requests\"");
         req.setAttribute("requests", requestUnblocks);
         log.debug("forward to \"unblock_account.jsp\"");
         req.getRequestDispatcher("/unblock_account.jsp").forward(req, resp);

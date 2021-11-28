@@ -17,7 +17,7 @@ public class PaymentCommandFactory extends CommandFactory {
     @Override
     public Command defineCommand() {
         String[] path = request.getRequestURI().split("/");
-        log.debug("try get action from path");
+        log.debug("try to get action from path");
         String action = path[path.length - 1];
         log.debug("coll method with action: " + action);
         switch (action) {

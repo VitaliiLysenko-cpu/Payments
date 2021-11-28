@@ -23,7 +23,7 @@ public class CreateNewUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        log.debug("try get parameters");
+        log.debug("try to get parameters");
         String email = request.getParameter("email");
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");

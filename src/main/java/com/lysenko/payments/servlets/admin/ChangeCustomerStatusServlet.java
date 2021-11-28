@@ -24,10 +24,10 @@ public class ChangeCustomerStatusServlet extends HttpServlet {
         log.debug("get action from path string");
         final String action = req.getPathInfo().substring(1);
         if (action.equals("block")) {
-            log.debug("try change status to BLOCKED with " + action);
+            log.debug("try to change status to BLOCKED with " + action);
             userDao.toBlockUser(UserStatus.BLOCKED, customerId);
         } else {
-            log.debug("try change status to UNBLOCKED with " + action);
+            log.debug("try to change status to UNBLOCKED with " + action);
             userDao.toBlockUser(UserStatus.UNBLOCKED, customerId);
         }
         log.debug("sendRedirect to \"req.getHeader(\"referer\")\" ");

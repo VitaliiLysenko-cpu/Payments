@@ -13,22 +13,22 @@ public class CreatePaymentCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        log.debug("try get parameters accountId and total");
+        log.debug("try to get parameters accountId and total");
         String accId = req.getParameter("accountId");
         String tot = req.getParameter("total");
         log.debug("accountId: " + accId + ", total: " + tot);
         if (!accId.isEmpty() && !tot.isEmpty()) {
-            log.debug("try parse accountId and total");
+            log.debug("try to parse accountId and total");
             int accountId = Integer.parseInt(accId);
             double total = Double.parseDouble(tot);
             log.debug("accountId: " + accountId + ", total: " + total);
             AccountDao accountDao = new AccountDao();
             log.debug("coll \"makePayment\"");
             accountDao.makePayment(total, accountId);
-            log.debug("try sent redirect \"\"account?id=\" + accountId\"");
+            log.debug("try to sent redirect \"\"account?id=\" + accountId\"");
             resp.sendRedirect("/account?id=" + accountId);
         } else {
-            log.debug("try sent redirect \"referer\"");
+            log.debug("try to sent redirect \"referer\"");
             resp.sendRedirect(req.getHeader("referer"));
         }
     }

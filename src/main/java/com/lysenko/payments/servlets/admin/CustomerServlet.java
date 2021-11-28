@@ -21,11 +21,11 @@ public class CustomerServlet extends HttpServlet {
         final String customerId = req.getParameter("id");
         log.debug("customerId : " + customerId);
         AccountDao accountDao = new AccountDao();
-        log.debug("try parse to int customerId and get all sorted accounts");
-        List<Account> accounts = accountDao.getAllSortedUserAccounts(Integer.parseInt(customerId));
-        log.debug("try set attribute \"accounts\"");
+        log.debug("try to parse int customerId and get all sorted accounts");
+        List<Account> accounts = accountDao.getAllUserAccounts(Integer.parseInt(customerId));
+        log.debug("try to set attribute \"accounts\"");
         req.setAttribute("accounts", accounts);
-        log.debug("try set attribute \"customerId\"");
+        log.debug("try to set attribute \"customerId\"");
         req.setAttribute("customerId", customerId);
         log.debug("forward to \"customer.jsp\"");
         req.getRequestDispatcher("/customer.jsp").forward(req, resp);
