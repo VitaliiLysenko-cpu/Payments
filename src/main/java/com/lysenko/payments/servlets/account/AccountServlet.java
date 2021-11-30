@@ -18,11 +18,22 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/account"})
 public class AccountServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(AccountServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         String pageParam = req.getParameter("page");
         String sortBy = req.getParameter("sortBy");
+        if (sortBy == null) {
+            sortBy = "id";
+        }
+        String sortOrder = req.getParameter("sortOrder");
+        if (sortOrder == null){
+            sortOrder = "ASC";
+        }
+        req.setAttribute("sortOrder", sortOrder);
+        req.setAttribute("sortBy", sortBy);
+
         //TODO check if in the range
         int page = 1;
         if (pageParam != null) {
@@ -37,8 +48,8 @@ public class AccountServlet extends HttpServlet {
         req.setAttribute("cards", cards);
 
         log.debug("try to get payments for account");
-        List<Payment> payments = paymentDao.getPaymentForAccount(id, page, sortBy);
-        log.debug("payments :" + payments) ;
+        List<Payment> payments = paymentDao.getPaymentForAccount(id, page, sortOrder, sortBy);
+        log.debug("payments :" + payments);
         req.setAttribute("payments", payments);
         final int total = paymentDao.getPaymentsCount(id);
         int numberOfPages = total / PaymentDao.ACCOUNTS_PER_PAGE;

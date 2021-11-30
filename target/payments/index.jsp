@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-horizontal needs-validation" id="loginform" role="form" method="post " style="width:50%"
+    <form class="form-horizontal needs-validation" id="loginform" role="form" method="post " style="width:100%"
           action="${pageContext.request.contextPath}/login">
         <div class="mb-3 form-group col-lg-2">
             <label for="login-username" class="form-label"><f:message key="email"/>*</label>

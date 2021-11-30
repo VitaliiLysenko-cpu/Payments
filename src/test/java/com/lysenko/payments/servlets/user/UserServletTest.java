@@ -33,14 +33,16 @@ class UserServletTest {
         String page = "2";
         int intPage = 2;
         String sortBy = "sortBy";
+        String sortOrder = "sortOrder";
         int userId = 1;
         List<Account> accountList = new ArrayList<>();
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getParameter("page")).thenReturn(page);
         when(request.getParameter("sortBy")).thenReturn(sortBy);
+        when(request.getParameter("sortOrder")).thenReturn(sortOrder);
         when(user.getUserId()).thenReturn(userId);
-        when(dao.getAllUserAccounts(userId, intPage, sortBy)).thenReturn(accountList);
+        when(dao.getAllUserAccounts(userId, intPage, sortBy, sortOrder)).thenReturn(accountList);
         when(dao.getAccountsCount(userId)).thenReturn(10);
         when(request.getRequestDispatcher("/user.jsp")).thenReturn(dispatcher);
         userServlet.setAccountDao(dao);
@@ -51,7 +53,7 @@ class UserServletTest {
         verify(session).getAttribute("user");
         verify(request).getParameter("page");
         verify(request).getParameter("sortBy");
-        verify(dao).getAllUserAccounts(userId, intPage, sortBy);
+        verify(dao).getAllUserAccounts(userId, intPage, sortBy,sortOrder);
         verify(user, times(2)).getUserId();
         verify(request).setAttribute("accounts", accountList);
         verify(dao).getAccountsCount(userId);

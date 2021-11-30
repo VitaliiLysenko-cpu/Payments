@@ -20,7 +20,7 @@ public class AccountDao {
     public static final String CHANGE_STATUS_ACCOUNT = "UPDATE account SET status = ? WHERE id = ?";
     public static final String GET_BALANCE_FROM_ACCOUNT = "SELECT balance FROM account WHERE id = ?";
     public static final String CHANGE_BALANCE_FOR_ACCOUNT = "UPDATE account SET balance = ? WHERE id = ?";
-    public static final String GET_USER_ACCOUNTS_LIMIT = "SELECT * FROM account WHERE user_id = ? ORDER BY %s ASC LIMIT ?,?";
+    public static final String GET_USER_ACCOUNTS_LIMIT = "SELECT * FROM account WHERE user_id = ? ORDER BY %s %s LIMIT ?,?";
     public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ?";
     public static final String BALANCE = "balance";
     public static final int ACCOUNT_GET_PAGE = 3;
@@ -52,8 +52,8 @@ public class AccountDao {
         return result;
     }
 
-    public List<Account> getAllUserAccounts(int userId, int page, String columnName) {
-        String sql = String.format(GET_USER_ACCOUNTS_LIMIT, columnName);
+    public List<Account> getAllUserAccounts(int userId, int page, String columnName, String sortOrder) {
+        String sql = String.format(GET_USER_ACCOUNTS_LIMIT, columnName, sortOrder);
         int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

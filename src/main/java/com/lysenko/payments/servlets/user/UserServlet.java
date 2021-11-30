@@ -3,7 +3,6 @@ package com.lysenko.payments.servlets.user;
 import com.lysenko.payments.model.dao.AccountDao;
 import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.entity.user.User;
-import com.lysenko.payments.servlets.payments.CreatePaymentCommand;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/user"})
 public class UserServlet extends HttpServlet {
-    private final Logger log = Logger.getLogger(CreatePaymentCommand.class);
+    private final Logger log = Logger.getLogger(UserServlet.class);
 
     private AccountDao accountDao = new AccountDao();
 
@@ -27,7 +26,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("try to get sesion");
+        log.debug("try to get session");
         HttpSession session = req.getSession();
         log.debug("try to get parameter user");
         User user = (User) session.getAttribute("user");
@@ -35,12 +34,21 @@ public class UserServlet extends HttpServlet {
         String pageParam = req.getParameter("page");
         log.debug("try to get parameter sortBy");
         String sortBy = req.getParameter("sortBy");
+        if (sortBy == null) {
+            sortBy = "id";
+        }
+        String sortOrder = req.getParameter("sortOrder");
+        if (sortOrder == null){
+            sortOrder = "ASC";
+        }
         int page = 1;
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
+        req.setAttribute("sortBy", sortBy);
+        req.setAttribute("sortOrder",sortOrder);
         log.debug("try to get accounts");
-        List<Account> accounts = accountDao.getAllUserAccounts(user.getUserId(), page, sortBy);
+        List<Account> accounts = accountDao.getAllUserAccounts(user.getUserId(), page, sortBy, sortOrder);
         log.debug("try to get account counts of DB table ");
         final int accountsCount = accountDao.getAccountsCount(user.getUserId());
         int numberOfPages = accountsCount / AccountDao.ACCOUNT_GET_PAGE;

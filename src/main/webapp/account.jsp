@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -13,7 +12,9 @@
             crossorigin="anonymous"></script>
     <title>AccountInfo</title>
     <style>
-        table, th, td {border: 1px solid black;}
+        table, th, td {
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -54,12 +55,31 @@
 <table id="table-payments" class="table" style="width: 50%">
     <thead>
     <tr>
-        <th scope="col"><a href="${pageContext.request.contextPath}/account?sortBy=id&page=1&id=${pageContext.request.getParameter("id")}">
-            <f:message key="number"/></a></th>
+        <th scope="col">
+            <c:choose>
+                <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
+                    <a href="${pageContext.request.contextPath}/account?sortBy=id&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
+                        <f:message key="number"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/account?sortBy=id&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
+                        <f:message key="number"/></a>
+                </c:otherwise>
+            </c:choose>
+        </th>
         <th scope="col"><f:message key="amount"/></th>
         <th scope="col"><f:message key="status"/></th>
-        <th scope="col"><a href="${pageContext.request.contextPath}/account?sortBy=date&page=1&id=${pageContext.request.getParameter("id")}">
-            <f:message key="dataCreated"/></a></th>
+        <th scope="col">
+            <c:choose>
+                <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
+                    <a href="${pageContext.request.contextPath}/account?sortBy=date&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
+                        <f:message key="dataCreated"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/account?sortBy=date&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
+                        <f:message key="dataCreated"/></a>
+                </c:otherwise>
+            </c:choose></th>
 
     </tr>
     </thead>
@@ -79,7 +99,7 @@
         <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
             <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">
                 <a class="page-link"
-                   href="${pageContext.request.contextPath}/account?id=${pageContext.request.getParameter("id")}&page=${i}&sortBy=${pageContext.request.getParameter("sortBy")}">${i}</a>
+                   href="${pageContext.request.contextPath}/account?sortBy=${sortBy}&sortOrder=${sortOrder}&id=${pageContext.request.getParameter("id")}&page=${i}">${i}</a>
             </li>
         </c:forEach>
     </ul>

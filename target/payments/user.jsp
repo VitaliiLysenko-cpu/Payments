@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.lysenko.payments.model.entity.account.Status" %>
@@ -23,16 +23,35 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
+<a href="${pageContext.request.contextPath}/add_account">
+    <f:message key="addAccount"/></a>
 <h4><f:message key="accounts_information"/></h4>
 <table id="table-accounts" class="table" style="width: 50%">
     <thead>
     <tr>
         <th scope="col">
-            <a href="${pageContext.request.contextPath}/user?sortBy=name">
-                <f:message key="name"/></a></th>
+            <c:choose>
+                <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
+                    <a href="${pageContext.request.contextPath}/user?sortBy=name&id=${pageContext.request.getParameter("name")}&sortOrder=ASC">
+                        <f:message key="name"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/user?sortBy=name&id=${pageContext.request.getParameter("name")}&sortOrder=DESC">
+                        <f:message key="name"/></a>
+                </c:otherwise>
+            </c:choose>
+        </th>
         <th scope="col">
-            <a href="${pageContext.request.contextPath}/user?sortBy=number">
-                <f:message key="number"/></a>
+            <c:choose>
+                <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
+                    <a href="${pageContext.request.contextPath}/user?sortBy=number&id=${pageContext.request.getParameter("number")}&sortOrder=ASC">
+                        <f:message key="number"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/user?sortBy=number&id=${pageContext.request.getParameter("number")}&sortOrder=DESC">
+                        <f:message key="number"/></a>
+                </c:otherwise>
+            </c:choose>
         </th>
         <th scope="col"><f:message key="amount"/></th>
         <th scope="col"><f:message key="status"/></th>
@@ -82,7 +101,7 @@
         <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
             <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">
                 <a class="page-link"
-                   href="${pageContext.request.contextPath}/user?id=${account.getId()}&page=${i}">${i}</a>
+                   href="${pageContext.request.contextPath}/user?sortBy=${sortBy}&id=${pageContext.request.getParameter("id")}&page=${i}">${i}</a>
             </li>
         </c:forEach>
     </ul>

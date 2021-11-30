@@ -20,14 +20,14 @@ public class PaymentDao {
     public static final int ACCOUNTS_PER_PAGE = 3;
     private static final String ADD_NEW_PAYMENT = "INSERT INTO payment (status, date, amount, account_id) VALUES (?,?,?,?)";
     private static final String GET_PAYMENTS_COUNT = "SELECT COUNT(*) AS numberOfPayments FROM payment WHERE account_id = ?";
-    private static final String GET_ACCOUNT_PAYMENT = "SELECT * FROM payment WHERE account_id = ? ORDER BY %s DESC LIMIT ?,?";
+    private static final String GET_ACCOUNT_PAYMENT = "SELECT * FROM payment WHERE account_id = ? ORDER BY %s %s LIMIT ?,?";
 
-    public List<Payment> getPaymentForAccount(String accountId, int page, String sortBy) {
-       return getPaymentForAccount(accountId,page,GET_ACCOUNT_PAYMENT,sortBy);
+    public List<Payment> getPaymentForAccount(String accountId, int page, String sortOrder, String sortBy) {
+       return getPaymentForAccount(accountId, page, sortOrder, GET_ACCOUNT_PAYMENT,sortBy);
     }
 
-    public List<Payment> getPaymentForAccount(String accountId, int page,String query,String sortBy) {
-        String sql = String.format(query, sortBy);
+    public List<Payment> getPaymentForAccount(String accountId, int page, String sortOrder,String query,String sortBy) {
+        String sql = String.format(query, sortBy, sortOrder);
         int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
