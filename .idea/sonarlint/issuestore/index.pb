@@ -9,10 +9,6 @@ b
 2src/main/java/com/lysenko/payments/model/Pool.java,4/1/41711da6eb2375194cf1567b919ea13976801f88
 i
 9src/main/java/com/lysenko/payments/model/entity/Card.java,5/0/50e821a48939f2e7c952f557a4d4d2183f5c566b
-t
-Dsrc/test/java/com/lysenko/payments/utils/LocalizationFilterTest.java,4/b/4bdb61c8d0b328a67503854a86071ee9e85ee4c8
-p
-@src/test/java/com/lysenko/payments/utils/EncodingFilterTest.java,2/7/279371f279f2d2c3427639a8003245c85c19f6d3
 ‡
 Wsrc/test/java/com/lysenko/payments/servlets/authorization/CreateNewUserServletTest.java,8/d/8d01397df95fb51daf4d77461ebf6b4be9b9d55a
 x
