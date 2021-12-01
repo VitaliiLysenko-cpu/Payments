@@ -26,6 +26,11 @@
 <a href="${pageContext.request.contextPath}/add_account">
     <f:message key="addAccount"/></a>
 <h4><f:message key="accounts_information"/></h4>
+<c:if test="${info == 'infoSentRequest'}">
+    <div class="alert alert-info" role="alert" style="width:50%">
+       <f:message key="your_request_was_sent"/>
+    </div>
+</c:if>
 <table id="table-accounts" class="table" style="width: 50%">
     <thead>
     <tr>
@@ -90,9 +95,9 @@
                     </c:otherwise>
                 </c:choose>
             </td>
-
         </tr>
     </c:forEach>
+
 
     </tbody>
 </table>

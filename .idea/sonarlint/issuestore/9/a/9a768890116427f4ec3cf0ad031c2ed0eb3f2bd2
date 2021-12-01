@@ -1,0 +1,14 @@
+
+[
+java:S1854!">Remove this useless assignment to local variable "accountDao".(¬Úö¥8œ´«Ö/
+v
+java:S1989"YHandle the following exception that could be thrown by "parseInt": NumberFormatException.(¦é‚Ï8™¡”Ö/
+L
+java:S1481!"/Remove this unused "accountDao" local variable.(¬Úö¥8Ÿ´«Ö/
+~
+java:S19892"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(´Ó·Ö8›¡”Ö/
+X	java:S125."<This block of commented-out lines of code should be removed.(•£¡ô8¥´«Ö/
+p
+java:S1128"NRemove this unused import 'com.lysenko.payments.model.entity.account.Account'.(í‰áüÿÿÿÿ8¥´«Ö/
+u
+java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ8œ¡”Ö/

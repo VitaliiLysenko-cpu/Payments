@@ -48,7 +48,7 @@ public class UserDao {
         return null;
     }
 
-    public void registration(String email, String firstname, String lastname, String phoneNum, String password) {
+    public boolean registration(String email, String firstname, String lastname, String phoneNum, String password) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(CHECK_USER_EMAIL)) {
             ps.setString(1, email);
@@ -68,10 +68,14 @@ public class UserDao {
                     AccountDao accountDao = new AccountDao();
                     accountDao.createAccount(generatedKeys.getInt(1));
                 }
+            }else{
+                log.debug("this email already using");
+                 return false;
             }
         } catch (SQLException throwables) {
             log.error("account was not created", throwables);
         }
+        return true;
     }
 
     private User createUser(ResultSet rs) throws SQLException {

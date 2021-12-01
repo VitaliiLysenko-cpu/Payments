@@ -32,8 +32,12 @@ public class CreateNewUserServlet extends HttpServlet {
         log.debug("email: " + email + "firstname: " + firstname + "lastname: " + lastname + "phone: " + phoneNum
                 + "password: " + password);
         log.debug("coll \"registration\"");
-        userDao.registration(email, firstname, lastname, phoneNum, password);
-        log.debug("redirect to \"login\"");
-        response.sendRedirect("/login");
+        Boolean res = userDao.registration(email, firstname, lastname, phoneNum, password);
+        if (res == false) {
+            response.sendRedirect("/registration?error=errorRegistration");
+        } else {
+            log.debug("redirect to \"login\"");
+            response.sendRedirect("/login");
+        }
     }
 }

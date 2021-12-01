@@ -47,9 +47,7 @@ public class LoginServlet extends HttpServlet {
                 resp.sendRedirect("/admin?page=1");
             }
         } else {
-            log.debug("user entered invalid credentials");
-            req.setAttribute("error", "Invalid credentials");
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
+            resp.sendRedirect("/?error=errorLogin");
         }
     }
 }

@@ -16,6 +16,8 @@ public class NewPaymentCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String error = req.getParameter("error");
+        req.setAttribute("error", error);
         log.debug("try to get session and user");
         User user = (User) req.getSession().getAttribute("user");
         AccountDao accountDao = new AccountDao();

@@ -22,6 +22,6 @@ public class RequestToAdminServlet extends HttpServlet {
         AccountDao accountDao = new AccountDao();
         accountDao.toSentRequest(accountId);
         log.debug("coll toSentRequest with accountId");
-        resp.sendRedirect("/user");
+        resp.sendRedirect("/user?info=infoSentRequest");
     }
 }

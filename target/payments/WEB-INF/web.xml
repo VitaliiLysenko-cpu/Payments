@@ -58,7 +58,7 @@
         </init-param>
         <init-param>
             <param-name>user</param-name>
-            <param-value>/account /user /payment/new /block /sent-request /top_up /request/new /payment/create</param-value>
+            <param-value>/account /user /add_account /payment/new /block /sent-request /top_up /request/new /payment/create</param-value>
         </init-param>
         <init-param>
             <param-name>not-filtered</param-name>

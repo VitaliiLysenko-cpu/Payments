@@ -23,10 +23,14 @@ public class CreatePaymentCommand implements Command {
             double total = Double.parseDouble(tot);
             log.debug("accountId: " + accountId + ", total: " + total);
             AccountDao accountDao = new AccountDao();
-            log.debug("coll \"makePayment\"");
-            accountDao.makePayment(total, accountId);
-            log.debug("try to sent redirect \"\"account?id=\" + accountId\"");
-            resp.sendRedirect("/account?id=" + accountId);
+            if(total >= accountDao.getAccountBalance(accId)) {
+                resp.sendRedirect("/payment/new?error=errorBalance");
+            } else {
+                log.debug("coll \"makePayment\"");
+                accountDao.makePayment(total, accountId);
+                log.debug("try to sent redirect \"\"account?id=\" + accountId\"");
+                resp.sendRedirect("/account?id=" + accountId);
+            }
         } else {
             log.debug("try to sent redirect \"referer\"");
             resp.sendRedirect(req.getHeader("referer"));

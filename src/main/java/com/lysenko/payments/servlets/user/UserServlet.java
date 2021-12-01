@@ -2,6 +2,7 @@ package com.lysenko.payments.servlets.user;
 
 import com.lysenko.payments.model.dao.AccountDao;
 import com.lysenko.payments.model.entity.account.Account;
+import com.lysenko.payments.model.entity.request.RequestUnblock;
 import com.lysenko.payments.model.entity.user.User;
 import org.apache.log4j.Logger;
 
@@ -45,6 +46,10 @@ public class UserServlet extends HttpServlet {
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
+
+        String info = req.getParameter("info");
+        req.setAttribute("info",info);
+
         req.setAttribute("sortBy", sortBy);
         req.setAttribute("sortOrder",sortOrder);
         log.debug("try to get accounts");
