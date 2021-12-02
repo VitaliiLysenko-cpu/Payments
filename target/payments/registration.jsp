@@ -31,7 +31,6 @@
             <label class="col-md-3 control-label">
                 <f:message key="email"/> *</label>
             <input type="email" class="form-control"
-                   pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                    name="email" id="exampleInputEmail1" aria-describedby="emailHelp"
                    required>
             <small id="emailHelp" class="form-text text-muted"><f:message

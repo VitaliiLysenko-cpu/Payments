@@ -24,6 +24,7 @@ public class AccountServlet extends HttpServlet {
         String id = req.getParameter("id");
         String pageParam = req.getParameter("page");
         String sortBy = req.getParameter("sortBy");
+
         if (sortBy == null) {
             sortBy = "id";
         }
@@ -34,7 +35,6 @@ public class AccountServlet extends HttpServlet {
         req.setAttribute("sortOrder", sortOrder);
         req.setAttribute("sortBy", sortBy);
 
-        //TODO check if in the range
         int page = 1;
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
@@ -60,6 +60,7 @@ public class AccountServlet extends HttpServlet {
         double balance = accountDao.getAccountBalance(id);
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("balance", balance);
+        req.setAttribute("page",page);
         log.debug("try set attribute numberOfPage :" + numberOfPages + "balance" + balance);
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }

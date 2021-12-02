@@ -24,8 +24,7 @@
           action="${pageContext.request.contextPath}/login">
         <div class="mb-3 form-group col-lg-2">
             <label for="login-username" class="form-label"><f:message key="email"/>*</label>
-            <input id="login-username" type="email" class="form-control" name="email"
-                   pattern="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"required>
+            <input id="login-username" type="email" class="form-control" name="email" required>
             <div class="invalid-feedback">${requestScope.error}</div>
         </div>
 

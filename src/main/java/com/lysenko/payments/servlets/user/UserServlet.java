@@ -2,7 +2,6 @@ package com.lysenko.payments.servlets.user;
 
 import com.lysenko.payments.model.dao.AccountDao;
 import com.lysenko.payments.model.entity.account.Account;
-import com.lysenko.payments.model.entity.request.RequestUnblock;
 import com.lysenko.payments.model.entity.user.User;
 import org.apache.log4j.Logger;
 
@@ -39,7 +38,7 @@ public class UserServlet extends HttpServlet {
             sortBy = "id";
         }
         String sortOrder = req.getParameter("sortOrder");
-        if (sortOrder == null){
+        if (sortOrder == null) {
             sortOrder = "ASC";
         }
         int page = 1;
@@ -48,20 +47,23 @@ public class UserServlet extends HttpServlet {
         }
 
         String info = req.getParameter("info");
-        req.setAttribute("info",info);
+        req.setAttribute("info", info);
 
         req.setAttribute("sortBy", sortBy);
-        req.setAttribute("sortOrder",sortOrder);
+        req.setAttribute("sortOrder", sortOrder);
         log.debug("try to get accounts");
         List<Account> accounts = accountDao.getAllUserAccounts(user.getUserId(), page, sortBy, sortOrder);
         log.debug("try to get account counts of DB table ");
         final int accountsCount = accountDao.getAccountsCount(user.getUserId());
+        log.debug("accountsCount; " + accountsCount + accounts);
         int numberOfPages = accountsCount / AccountDao.ACCOUNT_GET_PAGE;
         if (accountsCount % AccountDao.ACCOUNT_GET_PAGE != 0) {
             numberOfPages++;
         }
+
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("accounts", accounts);
+        req.setAttribute("page",page);
         req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }
 }

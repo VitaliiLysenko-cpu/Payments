@@ -10,7 +10,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
                 <li><a href="${pageContext.request.contextPath}/admin?page=1" class="nav-link px-2 link-dark">
-                    <f:message key="home"/>
+                    <f:message key="users_information"/>
                 </a></li>
                 <li>
                     <ul class="list-group list-group-horizontal">

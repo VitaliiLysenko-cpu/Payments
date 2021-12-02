@@ -14,6 +14,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/unblock")
 public class UnblockAccountServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(UnblockAccountServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("try to get accountId from param.");
@@ -21,7 +22,7 @@ public class UnblockAccountServlet extends HttpServlet {
         log.debug("accountId :" + accountId);
         AccountDao accountDao = new AccountDao();
         log.debug("coll toChangeStatusAccount method with status OPEN");
-        accountDao.toChangeStatusAccount(Status.OPEN,accountId);
+        accountDao.toChangeStatusAccount(Status.OPEN, accountId);
         resp.sendRedirect("/user");
     }
 }

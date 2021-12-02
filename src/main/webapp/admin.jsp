@@ -19,7 +19,7 @@
 </head>
 <jsp:include page="${pageContext.request.contextPath}/header_admin.jsp"/>
 <body>
-<h4><f:message key="accounts_information"/> </h4>
+<h4><f:message key="users_information"/> </h4>
 <table id="table-accounts" class="table" style="width:50%">
     <thead>
     <tr>
@@ -60,7 +60,7 @@
 <tr>
     <br>
 </tr>
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation">
     <ul class="pagination">
         <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
             <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">

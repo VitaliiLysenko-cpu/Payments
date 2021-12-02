@@ -58,7 +58,18 @@
                 </c:otherwise>
             </c:choose>
         </th>
-        <th scope="col"><f:message key="amount"/></th>
+        <th scope="col">
+            <c:choose>
+                <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
+                    <a href="${pageContext.request.contextPath}/user?sortBy=balance&id=${pageContext.request.getParameter("balance")}&sortOrder=ASC">
+                        <f:message key="amount"/></a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/user?sortBy=balance&id=${pageContext.request.getParameter("balance")}&sortOrder=DESC">
+                        <f:message key="amount"/></a>
+                </c:otherwise>
+            </c:choose>
+        </th>
         <th scope="col"><f:message key="status"/></th>
         <th scope="col"><f:message key="changeStatus"/></th>
 
@@ -86,11 +97,11 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.OPEN }">
-                        <a href="${pageContext.request.contextPath}/block?id=${account.getId()}"><f:message
+                        <a href="${pageContext.request.contextPath}/block?id=${account.getId()}&page=${pageContext.request.getAttribute("page")}"><f:message
                                 key="block"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/sent-request?id=${account.getId()}"><f:message
+                        <a href="${pageContext.request.contextPath}/sent-request?id=${account.getId()}&page=${pageContext.request.getAttribute("page")}"><f:message
                                 key="unblock"/></a>
                     </c:otherwise>
                 </c:choose>
@@ -104,7 +115,7 @@
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
-            <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">
+            <li class="page-item <c:if test="${i == page}">active</c:if>">
                 <a class="page-link"
                    href="${pageContext.request.contextPath}/user?sortBy=${sortBy}&id=${pageContext.request.getParameter("id")}&page=${i}">${i}</a>
             </li>

@@ -10,12 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserServletTest {
@@ -34,6 +32,7 @@ class UserServletTest {
         int intPage = 2;
         String sortBy = "sortBy";
         String sortOrder = "sortOrder";
+
         int userId = 1;
         List<Account> accountList = new ArrayList<>();
         when(request.getSession()).thenReturn(session);
@@ -45,15 +44,17 @@ class UserServletTest {
         when(dao.getAllUserAccounts(userId, intPage, sortBy, sortOrder)).thenReturn(accountList);
         when(dao.getAccountsCount(userId)).thenReturn(10);
         when(request.getRequestDispatcher("/user.jsp")).thenReturn(dispatcher);
-        userServlet.setAccountDao(dao);
 
+        userServlet.setAccountDao(dao);
         userServlet.doGet(request, response);
 
         verify(request).getSession();
         verify(session).getAttribute("user");
         verify(request).getParameter("page");
         verify(request).getParameter("sortBy");
-        verify(dao).getAllUserAccounts(userId, intPage, sortBy,sortOrder);
+        verify(request).getParameter("sortOrder");
+        verify(request).getParameter("sortBalance");
+        verify(dao).getAllUserAccounts(userId, intPage, sortBy, sortOrder);
         verify(user, times(2)).getUserId();
         verify(request).setAttribute("accounts", accountList);
         verify(dao).getAccountsCount(userId);

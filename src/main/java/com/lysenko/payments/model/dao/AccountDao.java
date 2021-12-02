@@ -20,8 +20,8 @@ public class AccountDao {
     public static final String CHANGE_STATUS_ACCOUNT = "UPDATE account SET status = ? WHERE id = ?";
     public static final String GET_BALANCE_FROM_ACCOUNT = "SELECT balance FROM account WHERE id = ?";
     public static final String CHANGE_BALANCE_FOR_ACCOUNT = "UPDATE account SET balance = ? WHERE id = ?";
-    public static final String GET_USER_ACCOUNTS_LIMIT = "SELECT * FROM account WHERE user_id = ? ORDER BY %s %s LIMIT ?,?";
-    public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ?";
+    public static final String GET_USER_ACCOUNTS_LIMIT = "SELECT * FROM account WHERE user_id = ? ORDER BY %s %s  LIMIT ?,?";
+    public static final String GET_USER_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? LIMIT ?,?";
     public static final String BALANCE = "balance";
     public static final int ACCOUNT_GET_PAGE = 3;
     private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
@@ -68,20 +68,31 @@ public class AccountDao {
         return Collections.emptyList();
     }
 
-    public List<Account> getUserOpenAccounts(int userId) {
-        return getAccounts(userId, GET_USER_OPEN_ACCOUNTS);
-    }
 
-    public List<Account> getAllSortedUserAccounts(int userId) {
-        return getAccounts(userId, GET_USER_ACCOUNTS_LIMIT);
-    }
-    public List<Account> getAllUserAccounts(int userId) {
-        return getAccounts(userId, GET_USER_ACCOUNTS);
-    }
+//    public List<Account> getAllSortedUserAccounts(int userId) {
+//        return getAccounts(userId, GET_USER_ACCOUNTS_LIMIT);
+//    }
+//    public List<Account> (int userId) {
+//        return getAccounts(userId, GET_USER_ACCOUNTS);
+//    }
 
-    private List<Account> getAccounts(int userId,String getSortedUserOpenAccounts) {
+    public List<Account> getAllUserAccounts(int userId, int page) {
+        int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
         try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(getSortedUserOpenAccounts)) {
+             PreparedStatement statement = connection.prepareStatement(GET_USER_ACCOUNTS)) {
+            statement.setInt(1, userId);
+            statement.setInt(2,offset);
+            statement.setInt(3,ACCOUNTS_PER_PAGE);
+            ResultSet rs = statement.executeQuery();
+            return resultSetToAccounts(rs);
+        } catch (SQLException throwables) {
+            log.error("can not to get accounts", throwables);
+        }
+        return Collections.emptyList();
+    }
+    public List<Account> getUserOpenAccounts(int userId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_USER_OPEN_ACCOUNTS)) {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             return resultSetToAccounts(rs);

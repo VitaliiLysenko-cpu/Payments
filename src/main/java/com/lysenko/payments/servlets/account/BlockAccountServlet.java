@@ -22,10 +22,11 @@ public class BlockAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.debug("try to get accountId from param.");
         int accountId = Integer.parseInt(req.getParameter("id"));
+        int page = Integer.parseInt(req.getParameter("page"));
         log.debug(" accountId :" + accountId);
 
         accountDao.toChangeStatusAccount(Status.BLOCKED, accountId);
         log.debug("coll method toChangeStatusAccount with Status>BLOCKED");
-        resp.sendRedirect("/user");
+        resp.sendRedirect("/user?page="+ page);
     }
 }

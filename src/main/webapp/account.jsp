@@ -58,11 +58,11 @@
         <th scope="col">
             <c:choose>
                 <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
-                    <a href="${pageContext.request.contextPath}/account?sortBy=id&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
+                    <a href="${pageContext.request.contextPath}/account?sortBy=id&page=1&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
                         <f:message key="number"/></a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/account?sortBy=id&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
+                    <a href="${pageContext.request.contextPath}/account?sortBy=id&page=1&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
                         <f:message key="number"/></a>
                 </c:otherwise>
             </c:choose>
@@ -72,12 +72,12 @@
         <th scope="col">
             <c:choose>
                 <c:when test="${sortOrder.equalsIgnoreCase(\"DESC\")}">
-                    <a href="${pageContext.request.contextPath}/account?sortBy=date&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
-                        <f:message key="dataCreated"/></a>
+                    <a href="${pageContext.request.contextPath}/account?sortBy=date&page=1&id=${pageContext.request.getParameter("id")}&sortOrder=ASC">
+                        <f:message key="dateCreated"/></a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/account?sortBy=date&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
-                        <f:message key="dataCreated"/></a>
+                    <a href="${pageContext.request.contextPath}/account?sortBy=date&page=1&id=${pageContext.request.getParameter("id")}&sortOrder=DESC">
+                        <f:message key="dateCreated"/></a>
                 </c:otherwise>
             </c:choose></th>
 
@@ -97,7 +97,7 @@
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <c:forEach var="i" begin="1" end="${numberOfPages}" step="1">
-            <li class="page-item <c:if test="${i == pageContext.request.getParameter(\"page\")}">active</c:if>">
+            <li class="page-item <c:if test="${i == page}">active</c:if>">
                 <a class="page-link"
                    href="${pageContext.request.contextPath}/account?sortBy=${sortBy}&sortOrder=${sortOrder}&id=${pageContext.request.getParameter("id")}&page=${i}">${i}</a>
             </li>
