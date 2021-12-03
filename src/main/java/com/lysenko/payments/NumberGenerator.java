@@ -3,6 +3,8 @@ package com.lysenko.payments;
 import java.util.Random;
 
 public class NumberGenerator {
+    private NumberGenerator() {
+    }
 
     public static Long get16DigitsNumber() {
         final long MAX_NUMBER_YOU_WANT_TO_HAVE = 9999999999999999L;

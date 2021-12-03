@@ -11,6 +11,7 @@ class NumberGeneratorTest {
         final Long actual = NumberGenerator.get16DigitsNumber();
         assertTrue(actual >= 1000000000000000L && actual <= 9999999999999999L);
     }
+
     @Test
     void get3DigitsNumberTest(){
         final int actual = NumberGenerator.get3DigitsNumber();

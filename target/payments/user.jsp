@@ -31,6 +31,11 @@
        <f:message key="your_request_was_sent"/>
     </div>
 </c:if>
+<c:if test="${info == 'infoYourRequestCreatedBefore'}">
+    <div class="alert alert-info" role="alert" style="width:50%">
+       <f:message key="your_request_was_sent_before"/>
+    </div>
+</c:if>
 <table id="table-accounts" class="table" style="width: 50%">
     <thead>
     <tr>

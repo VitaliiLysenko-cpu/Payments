@@ -34,6 +34,9 @@
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/unblock_account">
                         <f:message key="unblock"/> <f:message key="account"/>
                     </a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/registration_from_admin">
+                        <f:message key="registration"/>
+                    </a></li>
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sign_out">
                         <f:message key="singOut"/>
                     </a></li>

@@ -43,11 +43,11 @@
             <td>
                 <c:choose>
                     <c:when test="${user.getStatus() == UserStatus.UNBLOCKED }">
-                        <a href="${pageContext.request.contextPath}/customer/block?userId=${user.getUserId()}"><f:message
+                        <a href="${pageContext.request.contextPath}/customer/block?userId=${user.getUserId()}&page=${pageContext.request.getAttribute("page")}"><f:message
                                 key="block"/></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/customer/unblock?userId=${user.getUserId()}"><f:message
+                        <a href="${pageContext.request.contextPath}/customer/unblock?userId=${user.getUserId()}&page=${pageContext.request.getAttribute("page")}"><f:message
                                 key="unblock"/></a>
                     </c:otherwise>
                 </c:choose></td>

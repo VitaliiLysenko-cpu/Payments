@@ -17,6 +17,7 @@ import static com.lysenko.payments.model.dao.PaymentDao.ACCOUNTS_PER_PAGE;
 public class AccountDao {
 
     public static final String SENT_REQUEST_TO_UNBLOCK = "INSERT INTO request_unblock(account_id) VALUES (?)";
+    public static final String CHECK_REQUEST_TO_UNBLOCK_BY_ACCOUNT_ID = "SELECT account_id FROM request_unblock WHERE status='NEW' AND account_id =?";
     public static final String CHANGE_STATUS_ACCOUNT = "UPDATE account SET status = ? WHERE id = ?";
     public static final String GET_BALANCE_FROM_ACCOUNT = "SELECT balance FROM account WHERE id = ?";
     public static final String CHANGE_BALANCE_FOR_ACCOUNT = "UPDATE account SET balance = ? WHERE id = ?";
@@ -81,8 +82,8 @@ public class AccountDao {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_USER_ACCOUNTS)) {
             statement.setInt(1, userId);
-            statement.setInt(2,offset);
-            statement.setInt(3,ACCOUNTS_PER_PAGE);
+            statement.setInt(2, offset);
+            statement.setInt(3, ACCOUNTS_PER_PAGE);
             ResultSet rs = statement.executeQuery();
             return resultSetToAccounts(rs);
         } catch (SQLException throwables) {
@@ -90,6 +91,7 @@ public class AccountDao {
         }
         return Collections.emptyList();
     }
+
     public List<Account> getUserOpenAccounts(int userId) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_USER_OPEN_ACCOUNTS)) {
@@ -189,35 +191,49 @@ public class AccountDao {
             changeStatus.execute();
 
         } catch (SQLException throwables) {
-           log.error("Can not change status account", throwables);
+            log.error("Can not change status account", throwables);
         }
     }
 
-
-    public void toSentRequest(int accountId) {
+    public boolean toCheckRequestWithAccountId(int accountId) {
         try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
+             PreparedStatement sentRequest = connection.prepareStatement(CHECK_REQUEST_TO_UNBLOCK_BY_ACCOUNT_ID)) {
             sentRequest.setInt(1, accountId);
-            sentRequest.execute();
+            ResultSet rs = sentRequest.executeQuery();
+            if(!rs.next()){
+                toSentRequest(accountId);
+                return true;
+            }
         } catch (SQLException throwables) {
-            log.error("Can not to sent request", throwables);
+            log.error("Can not to found request", throwables);
         }
+        return false;
     }
 
-    public void createAccount(int userId) {
-        try (Connection connection = Pool.getInstance().getConnection();
-             PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
-            Long number = NumberGenerator.get16DigitsNumber();
-            ps.setString(1, "Account: " + number.toString());
-            ps.setString(2, number.toString());
-            ps.setInt(3, userId);
-            ps.execute();
-            final ResultSet generatedKeys = ps.getGeneratedKeys();
-            generatedKeys.next();
-            CardDao cardDao = new CardDao();
-            cardDao.newCard(generatedKeys.getInt(1));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        public void toSentRequest ( int accountId){
+            try (Connection connection = Pool.getInstance().getConnection();
+                 PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
+                sentRequest.setInt(1, accountId);
+                sentRequest.execute();
+            } catch (SQLException throwables) {
+                log.error("Can not to sent request", throwables);
+            }
+        }
+
+        public void createAccount ( int userId){
+            try (Connection connection = Pool.getInstance().getConnection();
+                 PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
+                Long number = NumberGenerator.get16DigitsNumber();
+                ps.setString(1, "Account: " + number.toString());
+                ps.setString(2, number.toString());
+                ps.setInt(3, userId);
+                ps.execute();
+                final ResultSet generatedKeys = ps.getGeneratedKeys();
+                generatedKeys.next();
+                CardDao cardDao = new CardDao();
+                cardDao.newCard(generatedKeys.getInt(1));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
-}

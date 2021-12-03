@@ -21,8 +21,11 @@ public class RequestToAdminServlet extends HttpServlet {
         int page = Integer.parseInt(req.getParameter("page"));
         log.debug(" accountId :" + accountId);
         AccountDao accountDao = new AccountDao();
-        accountDao.toSentRequest(accountId);
-        log.debug("coll toSentRequest with accountId");
-        resp.sendRedirect("/user?info=infoSentRequest&page="+page);
+        if(accountDao.toCheckRequestWithAccountId(accountId)==true) {
+            log.debug("coll toSentRequest with accountId");
+            resp.sendRedirect("/user?info=infoSentRequest&page=" + page);
+        }else {
+            resp.sendRedirect("/user?info=infoYourRequestCreatedBefore&page=" + page);
+        }
     }
 }

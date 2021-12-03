@@ -19,14 +19,18 @@ class BlockAccountServletTest {
         AccountDao accountDao = mock(AccountDao.class);
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
+        String page = "2";
+        int intPage = 2;
         when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("page")).thenReturn(page);
         blockAccountServlet.setAccountDao(accountDao);
 
         blockAccountServlet.doGet(request,response);
 
         verify(request).getParameter("id");
+        verify(request).getParameter("page");
         verify(accountDao).toChangeStatusAccount(Status.BLOCKED, 1);
-        verify(response).sendRedirect("/user");
+        verify(response).sendRedirect("/user?page="+ intPage);
         verifyNoMoreInteractions(request, response);
     }
 }

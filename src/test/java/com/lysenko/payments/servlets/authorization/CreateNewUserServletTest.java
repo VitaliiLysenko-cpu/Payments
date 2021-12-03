@@ -39,7 +39,7 @@ class CreateNewUserServletTest {
         verify(request).getParameter("phone");
         verify(request).getParameter("password");
         verify(userDao).registration(email, firstName, lastName, phone, password);
-        verify(response).sendRedirect("/login");
+        verify(response).sendRedirect("/registration?error=errorRegistration");
         verifyNoMoreInteractions(request, response, userDao);
     }
 }

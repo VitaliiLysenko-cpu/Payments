@@ -20,6 +20,8 @@ public class UserDao {
     private static final String CREATE_NEW_USER = "INSERT INTO user (email," +
             "name,surname,phone_num,password)VALUES (?,?,?,?,?)";
     private static final String GET_USERS_COUNT = "SELECT COUNT(*) AS numberOfUsers FROM user WHERE role = ?";
+    private static final String CREATE_NEW_USER_FROM_ADMIN = "INSERT INTO user (email," +
+            "name,surname,phone_num,password,role)VALUES (?,?,?,?,?,?)";
 
     private final Logger log = Logger.getLogger(UserDao.class);
     public int getUsersCount() {
@@ -67,6 +69,31 @@ public class UserDao {
                     generatedKeys.next();
                     AccountDao accountDao = new AccountDao();
                     accountDao.createAccount(generatedKeys.getInt(1));
+                }
+            }else{
+                log.debug("this email already using");
+                 return false;
+            }
+        } catch (SQLException throwables) {
+            log.error("account was not created", throwables);
+        }
+        return true;
+    }
+    public boolean registration(String email, String firstname, String lastname, String phoneNum, String password,String role) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(CHECK_USER_EMAIL)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                try (PreparedStatement statement = connection.prepareStatement(CREATE_NEW_USER_FROM_ADMIN,
+                        Statement.RETURN_GENERATED_KEYS)) {
+                    statement.setString(1, email);
+                    statement.setString(2, firstname);
+                    statement.setString(3, lastname);
+                    statement.setString(4, phoneNum);
+                    statement.setString(5, password);
+                    statement.setString(6, role);
+                    statement.execute();
                 }
             }else{
                 log.debug("this email already using");

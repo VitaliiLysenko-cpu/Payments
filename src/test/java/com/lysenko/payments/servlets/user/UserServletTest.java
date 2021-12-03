@@ -32,20 +32,22 @@ class UserServletTest {
         int intPage = 2;
         String sortBy = "sortBy";
         String sortOrder = "sortOrder";
-
+        String info ="info";
         int userId = 1;
         List<Account> accountList = new ArrayList<>();
+
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getParameter("page")).thenReturn(page);
         when(request.getParameter("sortBy")).thenReturn(sortBy);
         when(request.getParameter("sortOrder")).thenReturn(sortOrder);
+        when(request.getParameter("info")).thenReturn(info);
         when(user.getUserId()).thenReturn(userId);
         when(dao.getAllUserAccounts(userId, intPage, sortBy, sortOrder)).thenReturn(accountList);
         when(dao.getAccountsCount(userId)).thenReturn(10);
         when(request.getRequestDispatcher("/user.jsp")).thenReturn(dispatcher);
-
         userServlet.setAccountDao(dao);
+
         userServlet.doGet(request, response);
 
         verify(request).getSession();
@@ -53,7 +55,11 @@ class UserServletTest {
         verify(request).getParameter("page");
         verify(request).getParameter("sortBy");
         verify(request).getParameter("sortOrder");
-        verify(request).getParameter("sortBalance");
+        verify(request).getParameter("info");
+        verify(request).setAttribute("page",intPage);
+        verify(request).setAttribute("sortBy", sortBy);
+        verify(request).setAttribute("sortOrder",sortOrder);
+        verify(request).setAttribute("info",info);
         verify(dao).getAllUserAccounts(userId, intPage, sortBy, sortOrder);
         verify(user, times(2)).getUserId();
         verify(request).setAttribute("accounts", accountList);

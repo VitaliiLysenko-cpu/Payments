@@ -15,9 +15,10 @@ public class BlockAccountServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(BlockAccountServlet.class);
     AccountDao accountDao = new AccountDao();
 
-    public void setAccountDao(AccountDao accountDao){
+    public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.debug("try to get accountId from param.");
@@ -27,6 +28,6 @@ public class BlockAccountServlet extends HttpServlet {
 
         accountDao.toChangeStatusAccount(Status.BLOCKED, accountId);
         log.debug("coll method toChangeStatusAccount with Status>BLOCKED");
-        resp.sendRedirect("/user?page="+ page);
+        resp.sendRedirect("/user?page=" + page);
     }
 }
