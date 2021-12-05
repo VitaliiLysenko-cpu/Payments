@@ -21,7 +21,6 @@ public class ChangeAccountStatusServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("try to get accountId from param.");
         int accountId = Integer.parseInt(req.getParameter("accountId"));
-        int page = Integer.parseInt(req.getParameter("page"));
         log.debug("accountId : " + accountId);
         log.debug("try to get parameter \"customerId\"");
         String customerId = req.getParameter("customerId");

@@ -16,7 +16,9 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String error = req.getParameter("error");
-        req.setAttribute("error",error);
+        String info = req.getParameter("info");
+        req.setAttribute("error", error);
+        req.setAttribute("info", info);
         log.debug("forward to \"registration.jsp\"");
         req.getRequestDispatcher("registration.jsp").forward(req, resp);
     }

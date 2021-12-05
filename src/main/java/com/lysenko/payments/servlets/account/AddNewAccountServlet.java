@@ -14,14 +14,17 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/add_account")
 public class AddNewAccountServlet extends HttpServlet {
-    private final  Logger log = Logger.getLogger(AddNewAccountServlet.class);
+    private final Logger log = Logger.getLogger(AddNewAccountServlet.class);
     private final AccountDao accountDao = new AccountDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("try to get session");
         HttpSession session = req.getSession();
+        log.debug("try to get user");
         User user = (User) session.getAttribute("user");
-       accountDao.createAccount(user.getUserId());
-       resp.sendRedirect("/user");
+        log.debug("try to create account");
+        accountDao.createAccount(user.getUserId());
+        resp.sendRedirect("/user");
     }
 }

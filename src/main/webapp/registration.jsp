@@ -19,6 +19,12 @@
         <a href="${pageContext.request.contextPath}/"><f:message key="log_in"/></a>
     </div>
 </c:if>
+<c:if test="${pageContext.request.getParameter('info')=='infoRegistration'}">
+    <div class="alert alert-info" role="alert" style="width:50%">
+        <f:message key="you_have_successfully_registered"/>
+        <a href="${pageContext.request.contextPath}/"><f:message key="log_in"/></a>
+    </div>
+</c:if>
 <div class="container">
     <form class="form-horizontal needs-validation" id="registration" class="form-horizontal" role="form"
           method="post" style="width:50%" action="${pageContext.request.contextPath}/create_user">

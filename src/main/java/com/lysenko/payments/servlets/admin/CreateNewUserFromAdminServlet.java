@@ -3,7 +3,6 @@ package com.lysenko.payments.servlets.admin;
 import com.lysenko.payments.model.dao.UserDao;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,10 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/create_user_from_admin")
 public class CreateNewUserFromAdminServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(CreateNewUserFromAdminServlet.class);
-    private UserDao userDao = new UserDao();
+    private final UserDao userDao = new UserDao();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         log.debug("try to get parameters");
         String email = req.getParameter("email");
         String firstname = req.getParameter("firstname");
@@ -24,15 +23,15 @@ public class CreateNewUserFromAdminServlet extends HttpServlet {
         String phoneNum = req.getParameter("phone");
         String role = req.getParameter("role");
         String password = req.getParameter("password");
-boolean res;
+        boolean res;
         if (role.equalsIgnoreCase("admin")) {
-           res = userDao.registration(email, firstname, lastname, phoneNum, password, role);
+            res = userDao.registration(email, firstname, lastname, phoneNum, password, role);
         } else {
-           res= userDao.registration(email, firstname, lastname, phoneNum, password);
+            res = userDao.registration(email, firstname, lastname, phoneNum, password);
         }
-        if(res){
+        if (res) {
             resp.sendRedirect("/registration_from_admin?success=successfulRegistration");
-        }else{
+        } else {
             resp.sendRedirect("/registration_from_admin?error=errorRegistration");
         }
     }

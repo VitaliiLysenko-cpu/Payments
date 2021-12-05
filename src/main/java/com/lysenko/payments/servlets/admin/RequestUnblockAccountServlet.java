@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-
 @WebServlet(urlPatterns = "/unblock_account")
 public class RequestUnblockAccountServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(RequestUnblockAccountServlet.class);

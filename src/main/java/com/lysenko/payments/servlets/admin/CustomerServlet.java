@@ -1,7 +1,7 @@
 package com.lysenko.payments.servlets.admin;
 
-import com.lysenko.payments.model.entity.account.Account;
 import com.lysenko.payments.model.dao.AccountDao;
+import com.lysenko.payments.model.entity.account.Account;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,6 +15,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(CustomerServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("try to get customerId from param.");
@@ -40,8 +41,7 @@ public class CustomerServlet extends HttpServlet {
         log.debug("try to set attribute \"customerId\"");
         req.setAttribute("customerId", customerId);
         log.debug("forward to \"customer.jsp\"");
-        req.setAttribute("page",page);
+        req.setAttribute("page", page);
         req.getRequestDispatcher("/customer.jsp").forward(req, resp);
-
     }
 }

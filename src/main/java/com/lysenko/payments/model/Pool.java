@@ -1,6 +1,7 @@
 package com.lysenko.payments.model;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,8 +9,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Pool {
-    private static final String PROPERTIES_PATH = "/pool-conf.properties";
+    private static final String PROPERTIES_PATH = "/pool_conf.properties";
     private static Pool instance;
+    private final Logger log = Logger.getLogger(Pool.class);
     private final BasicDataSource ds = new BasicDataSource();
 
     private Pool() {
@@ -21,8 +23,7 @@ public class Pool {
             ds.setUsername(properties.getProperty("db.user"));
             ds.setPassword(properties.getProperty("db.password"));
         } catch (IOException e) {
-            //TODO add logger
-            e.printStackTrace();
+            log.error("can not get data from file ", e);
         }
     }
 
@@ -37,8 +38,7 @@ public class Pool {
         try {
             return ds.getConnection();
         } catch (SQLException throwables) {
-            //TODO add logger
-            throwables.printStackTrace();
+            log.error("can not get connection");
         }
         return null;
     }

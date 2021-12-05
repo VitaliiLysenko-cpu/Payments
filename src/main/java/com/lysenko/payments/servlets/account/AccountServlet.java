@@ -29,7 +29,7 @@ public class AccountServlet extends HttpServlet {
             sortBy = "id";
         }
         String sortOrder = req.getParameter("sortOrder");
-        if (sortOrder == null){
+        if (sortOrder == null) {
             sortOrder = "ASC";
         }
         req.setAttribute("sortOrder", sortOrder);
@@ -60,7 +60,7 @@ public class AccountServlet extends HttpServlet {
         double balance = accountDao.getAccountBalance(id);
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("balance", balance);
-        req.setAttribute("page",page);
+        req.setAttribute("page", page);
         log.debug("try set attribute numberOfPage :" + numberOfPages + "balance" + balance);
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }
