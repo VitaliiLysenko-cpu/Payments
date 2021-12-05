@@ -76,6 +76,7 @@ public class UserDao {
             }
         } catch (SQLException throwables) {
             log.error("account was not created", throwables);
+            return false;
         }
         return true;
     }
@@ -101,6 +102,7 @@ public class UserDao {
             }
         } catch (SQLException throwables) {
             log.error("account was not created", throwables);
+            return false;
         }
         return true;
     }

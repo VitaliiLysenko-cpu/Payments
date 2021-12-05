@@ -13,10 +13,15 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header_admin.jsp"/>
+
 <c:if test="${error=='errorRegistration'}">
     <div class="alert alert-danger" role="alert" style="width:50%">
         <f:message key="this_email_is_already_in_use"/>
-        <a href="${pageContext.request.contextPath}/"><f:message key="log_in"/></a>
+    </div>
+</c:if>
+<c:if test="${success=='successfulRegistration'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="user_successfully_registered"/>
     </div>
 </c:if>
 <div class="container">
@@ -67,9 +72,9 @@
 
 
             <input type="radio" id="user" name="role" value="USER">
-            <label for="user">User</label><br>
+            <label for="user"><f:message key="user"/></label><br>
             <input type="radio" id="admin" name="role" value="ADMIN">
-            <label for="admin">Admin</label>
+            <label for="admin"><f:message key="admin"/></label>
 
 
 

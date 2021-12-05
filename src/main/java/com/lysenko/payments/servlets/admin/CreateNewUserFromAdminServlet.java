@@ -24,14 +24,16 @@ public class CreateNewUserFromAdminServlet extends HttpServlet {
         String phoneNum = req.getParameter("phone");
         String role = req.getParameter("role");
         String password = req.getParameter("password");
-
+boolean res;
         if (role.equalsIgnoreCase("admin")) {
-            userDao.registration(email, firstname, lastname, phoneNum, password, role);
+           res = userDao.registration(email, firstname, lastname, phoneNum, password, role);
         } else {
-            userDao.registration(email, firstname, lastname, phoneNum, password);
+           res= userDao.registration(email, firstname, lastname, phoneNum, password);
         }
-//TODO message about successful registration
-
-        req.getRequestDispatcher("registration_admin.jsp").forward(req, resp);
+        if(res){
+            resp.sendRedirect("/registration_from_admin?success=successfulRegistration");
+        }else{
+            resp.sendRedirect("/registration_from_admin?error=errorRegistration");
+        }
     }
 }

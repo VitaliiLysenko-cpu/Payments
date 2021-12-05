@@ -26,7 +26,6 @@ public class AccountDao {
     public static final String BALANCE = "balance";
     public static final int ACCOUNT_GET_PAGE = 3;
     private static final String GET_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? AND status = 'OPEN'";
-    private static final String GET_SORTED_USER_OPEN_ACCOUNTS = "SELECT * FROM account WHERE user_id = ? ORDER BY ? DESC";
     private static final String CREATE_NEW_ACCOUNT = "INSERT INTO account ( name, number, user_id) VALUES(?,?,?)";
     private static final String GET_ACCOUNTS_COUNT = "SELECT COUNT(*) AS numberOfAccounts FROM account WHERE user_id = ?";
     private final Logger log = Logger.getLogger(AccountDao.class);
@@ -69,13 +68,6 @@ public class AccountDao {
         return Collections.emptyList();
     }
 
-
-//    public List<Account> getAllSortedUserAccounts(int userId) {
-//        return getAccounts(userId, GET_USER_ACCOUNTS_LIMIT);
-//    }
-//    public List<Account> (int userId) {
-//        return getAccounts(userId, GET_USER_ACCOUNTS);
-//    }
 
     public List<Account> getAllUserAccounts(int userId, int page) {
         int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
@@ -200,7 +192,7 @@ public class AccountDao {
              PreparedStatement sentRequest = connection.prepareStatement(CHECK_REQUEST_TO_UNBLOCK_BY_ACCOUNT_ID)) {
             sentRequest.setInt(1, accountId);
             ResultSet rs = sentRequest.executeQuery();
-            if(!rs.next()){
+            if (!rs.next()) {
                 toSentRequest(accountId);
                 return true;
             }
@@ -210,30 +202,30 @@ public class AccountDao {
         return false;
     }
 
-        public void toSentRequest ( int accountId){
-            try (Connection connection = Pool.getInstance().getConnection();
-                 PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
-                sentRequest.setInt(1, accountId);
-                sentRequest.execute();
-            } catch (SQLException throwables) {
-                log.error("Can not to sent request", throwables);
-            }
-        }
-
-        public void createAccount ( int userId){
-            try (Connection connection = Pool.getInstance().getConnection();
-                 PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
-                Long number = NumberGenerator.get16DigitsNumber();
-                ps.setString(1, "Account: " + number.toString());
-                ps.setString(2, number.toString());
-                ps.setInt(3, userId);
-                ps.execute();
-                final ResultSet generatedKeys = ps.getGeneratedKeys();
-                generatedKeys.next();
-                CardDao cardDao = new CardDao();
-                cardDao.newCard(generatedKeys.getInt(1));
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+    public void toSentRequest(int accountId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement sentRequest = connection.prepareStatement(SENT_REQUEST_TO_UNBLOCK)) {
+            sentRequest.setInt(1, accountId);
+            sentRequest.execute();
+        } catch (SQLException throwables) {
+            log.error("Can not to sent request", throwables);
         }
     }
+
+    public void createAccount(int userId) {
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(CREATE_NEW_ACCOUNT, Statement.RETURN_GENERATED_KEYS)) {
+            Long number = NumberGenerator.get16DigitsNumber();
+            ps.setString(1, "Account: " + number);
+            ps.setString(2, number.toString());
+            ps.setInt(3, userId);
+            ps.execute();
+            final ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
+            CardDao cardDao = new CardDao();
+            cardDao.newCard(generatedKeys.getInt(1));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+}

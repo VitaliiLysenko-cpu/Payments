@@ -39,12 +39,12 @@
             <td>
                 <c:choose>
                     <c:when test="${account.getStatus() == Status.BLOCKED }">
-                        <a href="customer-account/unblock?accountId=${account.getId()}&customerId=${customerId}&page=1">
+                        <a href="customer-account/unblock?accountId=${account.getId()}&customerId=${customerId}&page=${page}">
                             <f:message key="unblock"/>
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <a href="customer-account/block?accountId=${account.getId()}&customerId=${customerId}&page=1">
+                        <a href="customer-account/block?accountId=${account.getId()}&customerId=${customerId}&page=${page}">
                             <f:message key="block"/>
                         </a>
                     </c:otherwise>
