@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.lysenko.payments.model.dao.RowsCounterInTable.getCountBY;
 import static com.lysenko.payments.model.entity.payment.PaymentStatus.DONE;
 import static com.lysenko.payments.model.entity.payment.PaymentStatus.NEW;
-import static com.lysenko.payments.model.dao.RowsCounterInTable.getCountBY;
 
 public class PaymentDao {
     public static final int ACCOUNTS_PER_PAGE = 3;
@@ -23,10 +23,10 @@ public class PaymentDao {
     private static final String GET_ACCOUNT_PAYMENT = "SELECT * FROM payment WHERE account_id = ? ORDER BY %s %s LIMIT ?,?";
 
     public List<Payment> getPaymentForAccount(String accountId, int page, String sortOrder, String sortBy) {
-       return getPaymentForAccount(accountId, page, sortOrder, GET_ACCOUNT_PAYMENT,sortBy);
+        return getPaymentForAccount(accountId, page, sortOrder, GET_ACCOUNT_PAYMENT, sortBy);
     }
 
-    public List<Payment> getPaymentForAccount(String accountId, int page, String sortOrder,String query,String sortBy) {
+    public List<Payment> getPaymentForAccount(String accountId, int page, String sortOrder, String query, String sortBy) {
         String sql = String.format(query, sortBy, sortOrder);
         int offset = page * ACCOUNTS_PER_PAGE - ACCOUNTS_PER_PAGE;
         try (Connection connection = Pool.getInstance().getConnection();
@@ -43,7 +43,7 @@ public class PaymentDao {
     }
 
 
-    public int getPaymentsCount(String accountId){
+    public int getPaymentsCount(String accountId) {
         return getCountBY(accountId, GET_PAYMENTS_COUNT);
     }
 

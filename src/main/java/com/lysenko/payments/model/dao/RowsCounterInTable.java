@@ -25,7 +25,7 @@ public class RowsCounterInTable {
         return 0;
     }
 
-    public static int getCountBY( String sqlRequest) {
+    public static int getCountBY(String sqlRequest) {
         return CountBY(sqlRequest, sqlRequest);
     }
 }

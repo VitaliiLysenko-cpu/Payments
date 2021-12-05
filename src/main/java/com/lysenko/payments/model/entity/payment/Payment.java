@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Payment implements Serializable {
-    private int id;
-    private double amount;
-    private PaymentStatus status;
-    private Date dateCreated;
+    private final int id;
+    private final double amount;
+    private final PaymentStatus status;
+    private final Date dateCreated;
 
-    public Payment(int id,  PaymentStatus status, Date dateCreated, double amount) {
+    public Payment(int id, PaymentStatus status, Date dateCreated, double amount) {
         this.id = id;
         this.amount = amount;
         this.status = status;

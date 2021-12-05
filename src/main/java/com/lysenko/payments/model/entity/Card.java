@@ -4,10 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Card implements Serializable {
-    private int id; //todo revisit data type
-    private String number;
-    private Date expiration;
-    private int cvc;
+    private final int id; //todo revisit data type
+    private final String number;
+    private final Date expiration;
+    private final int cvc;
+
+    public Card(int id, String number, Date expiration, int cvc) {
+        this.id = id;
+        this.number = number;
+        this.expiration = expiration;
+        this.cvc = cvc;
+    }
 
     @Override
     public String toString() {
@@ -33,12 +40,5 @@ public class Card implements Serializable {
 
     public int getCvc() {
         return cvc;
-    }
-
-    public Card(int id, String number, Date expiration, int cvc) {
-        this.id = id;
-        this.number = number;
-        this.expiration = expiration;
-        this.cvc = cvc;
     }
 }

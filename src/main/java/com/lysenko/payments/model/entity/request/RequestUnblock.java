@@ -3,9 +3,9 @@ package com.lysenko.payments.model.entity.request;
 import java.io.Serializable;
 
 public class RequestUnblock implements Serializable {
-   private int id;
-   private StatusRequest statusRequest;
-   private int accountId;
+    private final int id;
+    private final StatusRequest statusRequest;
+    private final int accountId;
 
     public RequestUnblock(int id, StatusRequest statusRequest, int accountId) {
         this.id = id;

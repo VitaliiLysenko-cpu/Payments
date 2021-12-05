@@ -6,7 +6,7 @@ public class Account {
     private final String name;
     private final String number;
     private final double balance;
-    private final Status status ;
+    private final Status status;
 
     public Account(int id, String name, String number, double balance, Status status) {
         this.id = id;
@@ -40,7 +40,7 @@ public class Account {
     public String toString() {
         return "Account{" +
                 "id= " + id +
-                ", name= "  + name + '\'' +
+                ", name= " + name + '\'' +
                 ", number= " + number + '\'' +
                 ", balance= " + balance +
                 '}';

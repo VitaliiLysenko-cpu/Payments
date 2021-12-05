@@ -24,6 +24,7 @@ public class UserDao {
             "name,surname,phone_num,password,role)VALUES (?,?,?,?,?,?)";
 
     private final Logger log = Logger.getLogger(UserDao.class);
+
     public int getUsersCount() {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_USERS_COUNT)) {
@@ -70,9 +71,9 @@ public class UserDao {
                     AccountDao accountDao = new AccountDao();
                     accountDao.createAccount(generatedKeys.getInt(1));
                 }
-            }else{
+            } else {
                 log.debug("this email already using");
-                 return false;
+                return false;
             }
         } catch (SQLException throwables) {
             log.error("account was not created", throwables);
@@ -80,7 +81,8 @@ public class UserDao {
         }
         return true;
     }
-    public boolean registration(String email, String firstname, String lastname, String phoneNum, String password,String role) {
+
+    public boolean registration(String email, String firstname, String lastname, String phoneNum, String password, String role) {
         try (Connection connection = Pool.getInstance().getConnection();
              PreparedStatement ps = connection.prepareStatement(CHECK_USER_EMAIL)) {
             ps.setString(1, email);
@@ -96,9 +98,9 @@ public class UserDao {
                     statement.setString(6, role);
                     statement.execute();
                 }
-            }else{
+            } else {
                 log.debug("this email already using");
-                 return false;
+                return false;
             }
         } catch (SQLException throwables) {
             log.error("account was not created", throwables);
