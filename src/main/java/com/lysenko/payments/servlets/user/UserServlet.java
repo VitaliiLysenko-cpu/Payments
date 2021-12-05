@@ -45,10 +45,8 @@ public class UserServlet extends HttpServlet {
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
         }
-
         String info = req.getParameter("info");
         req.setAttribute("info", info);
-
         req.setAttribute("sortBy", sortBy);
         req.setAttribute("sortOrder", sortOrder);
         log.debug("try to get accounts");
@@ -60,10 +58,9 @@ public class UserServlet extends HttpServlet {
         if (accountsCount % AccountDao.ACCOUNT_GET_PAGE != 0) {
             numberOfPages++;
         }
-
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("accounts", accounts);
-        req.setAttribute("page",page);
+        req.setAttribute("page", page);
         req.getRequestDispatcher("/user.jsp").forward(req, resp);
     }
 }

@@ -1,13 +1,12 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="com.lysenko.payments.model.entity.account.Status" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
-
-<html>
-
+<!DOCTYPE html>
+<html lang="${sessionScope.lang}">
 <head>
     <title>User account</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,12 +27,12 @@
 <h4><f:message key="accounts_information"/></h4>
 <c:if test="${info == 'infoSentRequest'}">
     <div class="alert alert-info" role="alert" style="width:50%">
-       <f:message key="your_request_was_sent"/>
+        <f:message key="your_request_was_sent"/>
     </div>
 </c:if>
 <c:if test="${info == 'infoYourRequestCreatedBefore'}">
     <div class="alert alert-info" role="alert" style="width:50%">
-       <f:message key="your_request_was_sent_before"/>
+        <f:message key="your_request_was_sent_before"/>
     </div>
 </c:if>
 <table id="table-accounts" class="table" style="width: 50%">

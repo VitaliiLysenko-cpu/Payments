@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
-<html>
+<!DOCTYPE html>
+<html lang="${sessionScope.lang}">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -20,7 +21,7 @@
     </div>
 </c:if>
 <c:if test="${success=='successfulRegistration'}">
-    <div class="alert alert-danger" role="alert" style="width:50%">
+    <div class="alert alert-info" role="alert" style="width:50%">
         <f:message key="user_successfully_registered"/>
     </div>
 </c:if>
@@ -71,11 +72,10 @@
         </div>
 
 
-            <input type="radio" id="user" name="role" value="USER">
-            <label for="user"><f:message key="user"/></label><br>
-            <input type="radio" id="admin" name="role" value="ADMIN">
-            <label for="admin"><f:message key="admin"/></label>
-
+        <input type="radio" id="user" name="role" value="USER">
+        <label for="user"><f:message key="user"/></label><br>
+        <input type="radio" id="admin" name="role" value="ADMIN">
+        <label for="admin"><f:message key="admin"/></label>
 
 
         <div class="form-group">

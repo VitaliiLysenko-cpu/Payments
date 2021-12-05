@@ -1,6 +1,5 @@
 package com.lysenko.payments.servlets.payments;
 
-
 import com.lysenko.payments.model.dao.AccountDao;
 import org.apache.log4j.Logger;
 
@@ -23,7 +22,7 @@ public class CreatePaymentCommand implements Command {
             double total = Double.parseDouble(tot);
             log.debug("accountId: " + accountId + ", total: " + total);
             AccountDao accountDao = new AccountDao();
-            if(total >= accountDao.getAccountBalance(accId)) {
+            if (total >= accountDao.getAccountBalance(accId)) {
                 resp.sendRedirect("/payment/new?error=errorBalance");
             } else {
                 log.debug("coll \"makePayment\"");

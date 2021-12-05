@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -28,7 +27,9 @@
 
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="${pageContext.request.contextPath}/images/account.png" alt=<f:message key="menu"/> >
+                    <jsp:include page="${pageContext.request.contextPath}/greeting.jsp"/>
+                    <img src="${pageContext.request.contextPath}/images/account.png" alt=
+                    <f:message key="menu"/>>
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/unblock_account">

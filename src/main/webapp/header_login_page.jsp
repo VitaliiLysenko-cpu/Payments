@@ -14,9 +14,7 @@
                         </li>
                     </c:forEach>
                 </ul>
-
             </ul>
         </div>
     </div>
-
 </header>

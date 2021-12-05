@@ -13,7 +13,6 @@ public class PaymentCommandFactory extends CommandFactory {
         super(request, response);
     }
 
-
     @Override
     public Command defineCommand() {
         String[] path = request.getRequestURI().split("/");
@@ -28,6 +27,5 @@ public class PaymentCommandFactory extends CommandFactory {
             default:
                 return null;
         }
-
     }
 }

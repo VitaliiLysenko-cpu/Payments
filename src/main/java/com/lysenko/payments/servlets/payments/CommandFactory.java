@@ -9,7 +9,7 @@ public abstract class CommandFactory {
     protected HttpServletRequest request;
     protected HttpServletResponse response;
 
-    public CommandFactory(HttpServletRequest request, HttpServletResponse response) {
+    protected CommandFactory(HttpServletRequest request, HttpServletResponse response) {
         this.request = new HttpServletRequestWrapper(request);
         this.response = new HttpServletResponseWrapper(response);
     }

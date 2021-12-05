@@ -12,8 +12,8 @@ import java.util.*;
 
 public class SecurityFilter implements Filter {
 
-    private static Map<Role, List<String>> accessMap = new HashMap<>();
-    private static List<String> notFiltered = new ArrayList<>();
+    private static final Map<Role, List<String>> accessMap = new HashMap<>();
+    private List<String> notFiltered = new ArrayList<>();
 
     @Override
     public void init(FilterConfig config) {
@@ -54,7 +54,7 @@ public class SecurityFilter implements Filter {
         }
 
         User user = (User) session.getAttribute("user");
-        if(user == null) {
+        if (user == null) {
             return false;
         }
 
@@ -62,7 +62,6 @@ public class SecurityFilter implements Filter {
         if (userRole == null) {
             return false;
         }
-
         return accessMap.get(userRole).contains(action);
     }
 

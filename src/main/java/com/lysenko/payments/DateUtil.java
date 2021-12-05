@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
+    private DateUtil() {
+    }
 
     public static java.sql.Date getTodayInTwoYears() {
         Calendar calendar = Calendar.getInstance();
