@@ -11,6 +11,6 @@
 
     <tag>
         <name>hello</name>
-        <tag-class>my_tags.GreetingTag</tag-class>
+        <tag-class>my_tag.GreetingTag</tag-class>
     </tag>
 </taglib>

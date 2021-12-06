@@ -61,7 +61,7 @@
         </init-param>
         <init-param>
             <param-name>user</param-name>
-            <param-value>/account /user /add_account /payment/new /block /sent-request /top_up /request/new
+            <param-value> /successful /create_pdf /account /user /add_account /payment/new /block /sent-request /top_up /request/new
                 /payment/create
             </param-value>
         </init-param>
