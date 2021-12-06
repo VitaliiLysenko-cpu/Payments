@@ -1,9 +1,9 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
-<html>
+<!DOCTYPE html>
+<html lang="${sessionScope.lang}">
 <head>
     <title>Error</title>
 </head>
