@@ -44,6 +44,9 @@ public class UserServlet extends HttpServlet {
         int page = 1;
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
+            if(page <= 0){
+                page = 1;
+            }
         }
         String info = req.getParameter("info");
         req.setAttribute("info", info);

@@ -22,9 +22,12 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
+        if (Integer.parseInt(id) <= 0) {
+            req.getRequestDispatcher("/error.jsp").forward(req, resp);
+        }
         String pageParam = req.getParameter("page");
         String sortBy = req.getParameter("sortBy");
-
+        String error = req.getParameter("error");
         if (sortBy == null) {
             sortBy = "id";
         }
@@ -38,6 +41,9 @@ public class AccountServlet extends HttpServlet {
         int page = 1;
         if (pageParam != null) {
             page = Integer.parseInt(pageParam);
+            if (page <= 0) {
+                page = 1;
+            }
         }
         CardDao cardDao = new CardDao();
         PaymentDao paymentDao = new PaymentDao();
@@ -61,6 +67,7 @@ public class AccountServlet extends HttpServlet {
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("balance", balance);
         req.setAttribute("page", page);
+        req.setAttribute("error",error);
         log.debug("try set attribute numberOfPage :" + numberOfPages + "balance" + balance);
         req.getRequestDispatcher("/account.jsp").forward(req, resp);
     }

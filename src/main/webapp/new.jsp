@@ -15,20 +15,30 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
-<c:if test="${error == 'errorBalance'}">
+<c:if test="${error =='errorBalance'}">
     <div class="alert alert-danger" role="alert" style="width:50%">
         <f:message key="not_enough_balance_on_the_account"/>
+    </div>
+</c:if>
+<c:if test="${error =='errorNegativeBalance'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="the_value_must_not_be_negative"/>
+    </div>
+</c:if>
+<c:if test="${error =='errorNotSelectedAccount'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="account_must_be_selected"/>
     </div>
 </c:if>
 <form class="form-horizontal needs-validation" id="create" role="form" method="post"
       action="${pageContext.request.contextPath}/payment/create" style="width:50%">
     <div class="mb-3 form-group col-lg-2">
         <label for="total" class="form-label"><f:message key="total"/>*</label>
-        <input id="total" type="number" min="0" step="0.01" class="form-control" name="total" required>
+        <input id="total" type="number" step="0.01" class="form-control" name="total">
         <div class="invalid-feedback">${requestScope.error}</div>
     </div>
 
-    <select name="accountId" id="accountId" class="form-select" aria-label="Default select example" required>
+    <select name="accountId" id="accountId" class="form-select" aria-label="Default select example" >
         <option selected value="">Open this select menu</option>
         <c:forEach items="${accounts}" var="account">
             <option value="${account.getId()}">${account.getId()},${account.getName()},

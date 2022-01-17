@@ -24,10 +24,14 @@ public class TopUpAccountServlet extends HttpServlet {
         log.debug("total :" + tot);
         if (!tot.isEmpty()) {
             double total = Double.parseDouble(tot);
-            AccountDao accountDao = new AccountDao();
-            accountDao.changeBalance(total, accountId, MarkChangeBalance.PLUS);
-            log.debug("total is not empty, change balance");
-            resp.sendRedirect("/account?id=" + accountId);
+            if(total>=0) {
+                AccountDao accountDao = new AccountDao();
+                accountDao.changeBalance(total, accountId, MarkChangeBalance.PLUS);
+                log.debug("total is not empty, change balance");
+                resp.sendRedirect("/account?id=" + accountId);
+            }else {
+                resp.sendRedirect("/account?error=theValueMustNotBeNegative&id=" + accountId);
+            }
         } else {
             log.debug("total is empty, redirect to getHeader \"referer\"");
             resp.sendRedirect(req.getHeader("referer"));

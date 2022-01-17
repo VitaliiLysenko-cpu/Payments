@@ -9,11 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @WebServlet(urlPatterns = "/create_user")
 public class CreateNewUserServlet extends HttpServlet {
     private final Logger log = Logger.getLogger(CreateNewUserServlet.class);
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern VALID_PHONE_REGEX =
+            Pattern.compile("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}", Pattern.CASE_INSENSITIVE);
     private UserDao userDao = new UserDao();
 
     @VisibleForTesting
@@ -31,13 +37,29 @@ public class CreateNewUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         log.debug("email: " + email + "firstname: " + firstname + "lastname: " + lastname + "phone: " + phoneNum
                 + "password: " + password);
-        log.debug("coll \"registration\"");
-        boolean res = userDao.registration(email, firstname, lastname, phoneNum, password);
-        if (!res) {
-            response.sendRedirect("/registration?error=errorRegistration");
-        } else {
-            log.debug("redirect to \"login\"");
-            response.sendRedirect("/registration?info=infoRegistration");
+        if(validateEmail(email)) {
+            if(validatePhoneNumber(phoneNum)) {
+                log.debug("coll \"registration\"");
+                boolean res = userDao.registration(email, firstname, lastname, phoneNum, password);
+                if (!res) {
+                    response.sendRedirect("/registration?error=errorRegistration");
+                } else {
+                    log.debug("redirect to \"login\"");
+                    response.sendRedirect("/registration?info=infoRegistration");
+                }
+            }else {
+                response.sendRedirect("/registration?error=errorPhoneNumber");
+            }
+        }else{
+            response.sendRedirect("/registration?error=errorEmail");
         }
+    }
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+    public static boolean validatePhoneNumber(String phone) {
+        Matcher matcher = VALID_PHONE_REGEX.matcher(phone);
+        return matcher.find();
     }
 }

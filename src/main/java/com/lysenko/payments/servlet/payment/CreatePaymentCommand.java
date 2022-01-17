@@ -20,19 +20,23 @@ public class CreatePaymentCommand implements Command {
             log.debug("try to parse accountId and total");
             int accountId = Integer.parseInt(accId);
             double total = Double.parseDouble(tot);
-            log.debug("accountId: " + accountId + ", total: " + total);
-            AccountDao accountDao = new AccountDao();
-            if (total >= accountDao.getAccountBalance(accId)) {
-                resp.sendRedirect("/payment/new?error=errorBalance");
-            } else {
-                log.debug("coll \"makePayment\"");
-                accountDao.makePayment(total, accountId);
-                log.debug("try to sent redirect \"/successful?id=\" + accountId\"");
-                resp.sendRedirect("/successful?id=" + accountId);
+            if(total>=0) {
+                log.debug("accountId: " + accountId + ", total: " + total);
+                AccountDao accountDao = new AccountDao();
+                if (total >= accountDao.getAccountBalance(accId)) {
+                    resp.sendRedirect("/payment/new?error=errorBalance");
+                } else {
+                    log.debug("coll \"makePayment\"");
+                    accountDao.makePayment(total, accountId);
+                    log.debug("try to sent redirect \"/successful?id=\" + accountId\"");
+                    resp.sendRedirect("/successful?id=" + accountId);
+                }
+            }else{
+                resp.sendRedirect("/payment/new?error=errorNegativeBalance");
             }
         } else {
             log.debug("try to sent redirect \"referer\"");
-            resp.sendRedirect(req.getHeader("referer"));
+            resp.sendRedirect("/payment/new?error=errorNotSelectedAccount");
         }
     }
 }

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <f:setLocale value="${sessionScope.lang}"/>
 <f:setBundle basename="locale"/>
 <!DOCTYPE html>
@@ -20,6 +20,11 @@
 </head>
 <body>
 <jsp:include page="${pageContext.request.contextPath}/header.jsp"/>
+<c:if test="${error=='theValueMustNotBeNegative'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="the_value_must_not_be_negative"/>
+    </div>
+</c:if>
 <div class="container-sm"><f:message key="balance"/> ${balance}</div>
 <form method="post" action="${pageContext.request.contextPath}/top_up" style="width:40%">
     <div class="mb-3 form-group col-lg-2">

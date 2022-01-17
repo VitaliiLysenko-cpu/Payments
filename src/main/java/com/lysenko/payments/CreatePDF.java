@@ -24,7 +24,9 @@ public class CreatePDF {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        document.save("payment_"+payment.getId()+".pdf");
+
+        document.save("pdf/payment_"+payment.getId()+".pdf");
         document.close();
+
     }
 }

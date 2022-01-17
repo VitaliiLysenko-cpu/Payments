@@ -20,6 +20,16 @@
         <a href="${pageContext.request.contextPath}/"><f:message key="log_in"/></a>
     </div>
 </c:if>
+<c:if test="${pageContext.request.getParameter('error')=='errorEmail'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="this_email_is_not_correctly"/>
+    </div>
+</c:if>
+<c:if test="${pageContext.request.getParameter('error')=='errorPhoneNumber'}">
+    <div class="alert alert-danger" role="alert" style="width:50%">
+        <f:message key="this_phone_number_is_not_correctly"/>
+    </div>
+</c:if>
 <c:if test="${pageContext.request.getParameter('info')=='infoRegistration'}">
     <div class="alert alert-info" role="alert" style="width:50%">
         <f:message key="you_have_successfully_registered"/>
@@ -67,7 +77,7 @@
             </label>
             <div class="col-md-9">
                 <input type="text" class="form-control" name="phone"
-                       minlength="10" maxlength="10" required>
+                       minlength="1" maxlength="10" required>
             </div>
         </div>
         <div class="form-group">
@@ -76,7 +86,7 @@
             </label>
             <div class="col-md-9">
                 <input type="password" class="form-control" name="password"
-                       minlength="3" maxlength="16" required>
+                       minlength="8" maxlength="16" required>
             </div>
         </div>
 

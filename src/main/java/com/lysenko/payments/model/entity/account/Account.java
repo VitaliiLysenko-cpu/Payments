@@ -8,6 +8,7 @@ public class Account {
     private final double balance;
     private final Status status;
 
+
     public Account(int id, String name, String number, double balance, Status status) {
         this.id = id;
         this.name = name;
