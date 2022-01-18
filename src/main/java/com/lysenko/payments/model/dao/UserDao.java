@@ -23,6 +23,7 @@ public class UserDao {
     private static final String CREATE_NEW_USER_FROM_ADMIN = "INSERT INTO user (email," +
             "name,surname,phone_num,password,role)VALUES (?,?,?,?,?,?)";
 
+
     private final Logger log = Logger.getLogger(UserDao.class);
 
     public int getUsersCount() {
@@ -36,6 +37,22 @@ public class UserDao {
             log.error("can not to get user count", throwables);
         }
         return 0;
+    }
+
+    public String verifyPassword(String login) {
+        String password = "12345678";
+        try (Connection connection = Pool.getInstance().getConnection();
+             PreparedStatement ps = connection.prepareStatement(CHECK_USER_EMAIL)) {
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                password = rs.getString("password");
+            }
+            return password;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     public User logIn(String login, String password) {
@@ -64,7 +81,7 @@ public class UserDao {
                     statement.setString(3, lastname);
                     statement.setString(4, phoneNum);
                     statement.setString(5, password);
-                    //todo hash
+
                     statement.execute();
                     final ResultSet generatedKeys = statement.getGeneratedKeys();
                     generatedKeys.next();

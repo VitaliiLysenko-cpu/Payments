@@ -1,0 +1,13 @@
+
+‡
+java:S1130T"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(Àã·şÿÿÿÿ
+W
+java:S1128"ARemove this unused import 'org.apache.pdfbox.pdmodel.PDDocument'.(“ò€í
+X
+java:S1128"=Remove this unused import 'org.apache.pdfbox.pdmodel.PDPage'.(³‹Ìÿÿÿÿÿ
+e
+java:S1128"JRemove this unused import 'org.apache.pdfbox.pdmodel.PDPageContentStream'.(şŠŒÁÿÿÿÿÿ
+]
+java:S1128"GRemove this unused import 'org.apache.pdfbox.pdmodel.font.PDType1Font'.(Ìıë¦
+z
+java:S1488Z"_Immediately return this expression instead of assigning it to the temporary variable "payment".(¢îüåøÿÿÿÿ

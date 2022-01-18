@@ -1,6 +1,7 @@
 package com.lysenko.payments.servlet.authorization;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.lysenko.payments.PasswordStorage;
 import com.lysenko.payments.model.dao.UserDao;
 import org.apache.log4j.Logger;
 
@@ -35,17 +36,26 @@ public class CreateNewUserServlet extends HttpServlet {
         String lastname = request.getParameter("lastname");
         String phoneNum = request.getParameter("phone");
         String password = request.getParameter("password");
+        String passwordHash = password;
+        try {
+           passwordHash = PasswordStorage.createHash(password);
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+                 log.error("Unable to perform password hashing operation", e);
+        }
+
+
         log.debug("email: " + email + "firstname: " + firstname + "lastname: " + lastname + "phone: " + phoneNum
-                + "password: " + password);
+                + "password: " + passwordHash);
         if(validateEmail(email)) {
+
             if(validatePhoneNumber(phoneNum)) {
                 log.debug("coll \"registration\"");
-                boolean res = userDao.registration(email, firstname, lastname, phoneNum, password);
-                if (!res) {
-                    response.sendRedirect("/registration?error=errorRegistration");
+                boolean res = userDao.registration(email, firstname, lastname, phoneNum, passwordHash);
+                if (res) {
+                    response.sendRedirect("/registration?info=infoRegistration");
                 } else {
                     log.debug("redirect to \"login\"");
-                    response.sendRedirect("/registration?info=infoRegistration");
+                    response.sendRedirect("/registration?error=errorRegistration");
                 }
             }else {
                 response.sendRedirect("/registration?error=errorPhoneNumber");

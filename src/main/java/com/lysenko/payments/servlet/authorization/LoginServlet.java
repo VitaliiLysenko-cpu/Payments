@@ -1,6 +1,7 @@
 package com.lysenko.payments.servlet.authorization;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.lysenko.payments.PasswordStorage;
 import com.lysenko.payments.model.dao.UserDao;
 import com.lysenko.payments.model.entity.user.Role;
 import com.lysenko.payments.model.entity.user.User;
@@ -33,7 +34,21 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = req.getParameter("email");
         String password = req.getParameter("password");
+
         log.debug("try to login user");
+        String correctHash = userDao.verifyPassword(login);
+        log.debug(correctHash);
+        try {
+            if (PasswordStorage.verifyPassword(password, correctHash)) {
+                password = correctHash;
+            }
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+            e.printStackTrace();
+        } catch (PasswordStorage.InvalidHashException e) {
+            e.printStackTrace();
+        }
+
+
         User user = userDao.logIn(login, password);
 
         if (user != null) {
